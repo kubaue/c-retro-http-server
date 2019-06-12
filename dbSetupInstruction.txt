@@ -1,0 +1,17 @@
+http://mongoc.org/libmongoc/current/installing.html
+
+For linux:
+
+1) execute replacing version with 1.14
+
+wget https://github.com/mongodb/mongo-c-driver/releases/download/x.y.z/mongo-c-driver-x.y.z.tar.gz
+tar xzf mongo-c-driver-x.y.z.tar.gz
+cd mongo-c-driver-x.y.z
+mkdir cmake-build
+cd cmake-build
+cmake -DENABLE_AUTOMATIC_INIT_AND_CLEANUP=OFF ..
+
+2)
+
+make
+sudo make install
