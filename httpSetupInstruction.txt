@@ -1,0 +1,27 @@
+https://github.com/babelouest/ulfius
+
+Najpierw trzeba zainstalowac:
+
+1. libmicrohttpd 0.9.64
+rozpakowac, w folderze:
+make
+sudo make install
+
+2. Orcania
+git clone https://github.com/babelouest/orcania.git
+cd orcania/
+make
+sudo make install
+
+3. Jannson
+git clone https://github.com/akheron/jansson
+cd jansson
+./configure
+make
+sudo make install
+
+4. w koncu glowna biblioteka
+git clone https://github.com/babelouest/ulfius.git
+cd ulfius
+make
+sudo make install
