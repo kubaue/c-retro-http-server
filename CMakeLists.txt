@@ -11,5 +11,5 @@ message ("--   mongoc libraries \"${MONGOC_LIBRARIES}\"")
 add_executable(test_exam main.c)
 
 target_include_directories (test_exam PRIVATE "${MONGOC_INCLUDE_DIRS}")
-target_link_libraries (test_exam PRIVATE "${MONGOC_LIBRARIES}")
+target_link_libraries (test_exam PRIVATE "${MONGOC_LIBRARIES}" ulfius)
 target_compile_definitions (test_exam PRIVATE "${MONGOC_DEFINITIONS}")
