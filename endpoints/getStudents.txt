@@ -1,0 +1,14 @@
+GET /students
+
+response:
+status: 200
+[
+  {
+    "id": "1234",
+    "name": "Jan Kowalski"
+  },
+  {
+    "id": "5678",
+    "name": "Maria Kowalska"
+  }
+]

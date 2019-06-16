@@ -1,0 +1,16 @@
+POST /auth/login
+
+request:
+{
+  "login": "admin1",
+  "password": "qwerty123"
+}
+
+response:
+status: 200 if ok
+{
+  "role": "admin",
+  "name": "Jerzy Kowalski"
+}
+
+status 400 if bad credentials

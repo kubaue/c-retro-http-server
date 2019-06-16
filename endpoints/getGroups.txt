@@ -1,0 +1,13 @@
+GET /groups
+
+response:
+[
+  {
+    "groupName": "grupa 1",
+    "students": ["1234", "5678"]
+  },
+  {
+    "groupName": "grupa 2",
+    "students": ["7575", "5678", "1234"]
+  }
+]
