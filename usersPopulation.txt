@@ -1,0 +1,51 @@
+db.users.insertMany([
+     {
+       "id": "1000",
+       "name": "Albert Wright",
+       "role": "admin",
+       "login": "admin",
+       "password": "admin1"
+     },
+     {
+       "id": "2000",
+       "name": "Frederick Brown",
+       "role": "examiner",
+       "login": "examiner",
+       "password": "examiner1"
+     },
+     {
+       "id": "3000",
+       "name": "Myles Martin",
+       "role": "student",
+       "login": "student1",
+       "password": "student1"
+     },
+     {
+       "id": "3001",
+       "name": "Mason Stewart",
+       "role": "student",
+       "login": "student2",
+       "password": "student1"
+     },
+     {
+       "id": "3002",
+       "name": "Isa James",
+       "role": "student",
+       "login": "student3",
+       "password": "student1"
+     },
+     {
+       "id": "3003",
+       "name": "Douglas Newman",
+       "role": "student",
+       "login": "student4",
+       "password": "student1"
+     },
+     {
+       "id": "3004",
+       "name": "Harvey Chapman",
+       "role": "student",
+       "login": "student5",
+       "password": "student1"
+     }
+])
