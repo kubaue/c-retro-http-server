@@ -8,7 +8,7 @@ find_package (libmongoc-1.0 1.14 REQUIRED)
 message ("--   mongoc found version \"${MONGOC_VERSION}\"")
 message ("--   mongoc include path \"${MONGOC_INCLUDE_DIRS}\"")
 message ("--   mongoc libraries \"${MONGOC_LIBRARIES}\"")
-add_executable(test_exam api/main.c api/httpServer.h api/controllers/helloController.h api/base64.h api/controllers/loginController.h)
+add_executable(test_exam api/main.c api/httpServer.h api/controllers/helloController.h api/base64.h api/controllers/loginController.h api/idGenerator.h)
 
 target_include_directories (test_exam PRIVATE "${MONGOC_INCLUDE_DIRS}")
 target_link_libraries (test_exam PRIVATE "${MONGOC_LIBRARIES}" ulfius)

@@ -1,6 +1,7 @@
 #include <ulfius.h>
 #include <string.h>
 #include "../base64.h"
+#include "../idGenerator.h"
 
 int loginController(const struct _u_request *request, struct _u_response *response, void *user_data) {
 
