@@ -1,6 +1,6 @@
 import React from "react";
 
-export class GroupsScene extends React.Component {
+export class GroupsPage extends React.Component {
 
   render () {
     return (

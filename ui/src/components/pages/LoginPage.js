@@ -1,6 +1,6 @@
 import React from "react";
 
-export class LoginScene extends React.Component {
+export class LoginPage extends React.Component {
 
   render () {
     return (
