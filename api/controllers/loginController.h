@@ -5,11 +5,11 @@
 
 int loginController(const struct _u_request *request, struct _u_response *response, void *user_data) {
 
-    char* message = "Hello from login";
+    char *message = "Hello from login";
 
-    const unsigned char* input = (unsigned char*) message;
+    const unsigned char *input = (unsigned char *) message;
     size_t inputSize = strlen(message);
-    size_t* outputSize;
+    size_t *outputSize;
 
     char *body = base64_encode(input, inputSize, outputSize);
 
