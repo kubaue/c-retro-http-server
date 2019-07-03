@@ -5,7 +5,6 @@ import { GroupsPage } from "./components/pages/GroupsPage";
 import { createBrowserHistory } from "history";
 import { isLoggedIn } from "./selectors/authSelectors";
 import connect from "react-redux/es/connect/connect";
-import { Page } from "./components/Page";
 
 const history = createBrowserHistory();
 
@@ -14,17 +13,9 @@ class AppRouter extends Component {
     const loggedIn = this.props.isLoggedIn;
     return (
       <Router history={history}>
-        <Route path="/login" component={this.pageFor(LoginPage)} />
-        <PrivateRoute path="/groups" component={this.pageFor(GroupsPage)} isLoggedIn={loggedIn} />
+        <Route path="/login" component={LoginPage} />
+        <PrivateRoute path="/groups" component={GroupsPage} isLoggedIn={loggedIn} />
       </Router>
-    );
-  }
-
-  pageFor (component) {
-    return (
-      <Page>
-        {component}
-      </Page>
     );
   }
 }

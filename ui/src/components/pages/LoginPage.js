@@ -1,12 +1,13 @@
 import React from "react";
+import { Page } from '../Page';
 
 export class LoginPage extends React.Component {
 
-  render () {
+  render() {
     return (
-      <div>
-        Login
-      </div>
+      <Page>
+        <div>login</div>
+      </Page>
     );
   }
 }
