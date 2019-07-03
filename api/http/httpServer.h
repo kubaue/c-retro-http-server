@@ -6,13 +6,15 @@
 #include <string.h>
 #include "httpDispatcher.h"
 
-#define PORT 8081
+#define PORT 8080
+#define ALTERNATIVE_PORT 8081
+
+int bindOnPort(int server_fd, struct sockaddr_in *address);
 
 void runHttpServer() {
     int server_fd, socketId;
     struct sockaddr_in address;
     int addrlen = sizeof(address);
-
     char *hello = "HTTP/1.1 200 OK\nContent-Type: text/plain\nContent-Length: 12\n\nHello world!";
 
     if ((server_fd = socket(AF_INET, SOCK_STREAM, 0)) == 0) {
@@ -20,21 +22,24 @@ void runHttpServer() {
         exit(EXIT_FAILURE);
     }
 
+    int portUsed = PORT;
     address.sin_family = AF_INET;
     address.sin_addr.s_addr = INADDR_ANY;
-    address.sin_port = htons(PORT);
+    address.sin_port = htons(portUsed);
 
     memset(address.sin_zero, '\0', sizeof address.sin_zero);
 
-
-    if (bind(server_fd, (struct sockaddr *) &address, sizeof(address)) < 0) {
-        perror("Error in bind");
-        exit(EXIT_FAILURE);
+    if (bindOnPort(server_fd, &address) < 0) {
+        portUsed = ALTERNATIVE_PORT;
+        address.sin_port = htons(portUsed);
+        bindOnPort(server_fd, &address);
     }
     if (listen(server_fd, 10) < 0) {
         perror("In in listen");
         exit(EXIT_FAILURE);
     }
+
+    printf("Running on port %i\n", portUsed);
     while (1) {
         if ((socketId = accept(server_fd, (struct sockaddr *) &address, (socklen_t *) &addrlen)) < 0) {
             perror("Error in accept\n");
@@ -49,4 +54,8 @@ void runHttpServer() {
         printf("Response sent\n");
         close(socketId);
     }
+}
+
+int bindOnPort(int server_fd, struct sockaddr_in *address) {
+    return bind(server_fd, (struct sockaddr *) address, sizeof((*address)));
 }
