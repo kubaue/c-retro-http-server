@@ -3,8 +3,7 @@
 #include <stdio.h>
 #include "./mongoRepositories.h"
 
-int main (int argc, char *argv[])
-{
+void findUserByLogin(const char *login) {
     mongoc_client_t *client;
     mongoc_collection_t *collection;
     mongoc_cursor_t *cursor;
@@ -12,25 +11,23 @@ int main (int argc, char *argv[])
     bson_t *query;
     char *str;
 
-    mongoc_init ();
+    mongoc_init();
 
-    client =
-            mongoc_client_new ("mongodb://localhost:27017/?appname=find-example");
-    collection = mongoc_client_get_collection (client, "mydb", "mycoll");
-    query = bson_new ();
-    cursor = mongoc_collection_find_with_opts (collection, query, NULL, NULL);
+    client = mongoc_client_new("mongodb://admin:qwe123@ds263156.mlab.com:63156/pap-test-exam");
+    collection = mongoc_client_get_collection(client, "pap-test-exam", "users");
 
-    while (mongoc_cursor_next (cursor, &doc)) {
-        str = bson_as_canonical_extended_json (doc, NULL);
-        printf ("%s\n", str);
-        bson_free (str);
+    query = BCON_NEW("login", login);
+    cursor = mongoc_collection_find_with_opts(collection, query, NULL, NULL);
+
+    while (mongoc_cursor_next(cursor, &doc)) {
+        str = bson_as_canonical_extended_json(doc, NULL);
+        printf("%s\n", str);
+        bson_free(str);
     }
 
-    bson_destroy (query);
-    mongoc_cursor_destroy (cursor);
-    mongoc_collection_destroy (collection);
-    mongoc_client_destroy (client);
-    mongoc_cleanup ();
-
-    return 0;
+    bson_destroy(query);
+    mongoc_cursor_destroy(cursor);
+    mongoc_collection_destroy(collection);
+    mongoc_client_destroy(client);
+    mongoc_cleanup();
 }

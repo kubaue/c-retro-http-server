@@ -52,7 +52,6 @@ void runHttpServer() {
         dispatchHttpRequest(buffer, httpResponse);
 
         write(socketId, httpResponse, strlen(httpResponse));
-        printf("Response sent\n");
         close(socketId);
     }
 }

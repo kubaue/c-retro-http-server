@@ -3,6 +3,7 @@
 #include "../base64.h"
 #include "../idGenerator.h"
 #include "../http/httpResposeStatus.h"
+#include "../repositories/userRepository.h"
 
 void loginController(char *requestBody, char responseBody[], char responseStatus[]) {
 
@@ -11,10 +12,11 @@ void loginController(char *requestBody, char responseBody[], char responseStatus
     json_t *login = json_object_get(root, "login");
     json_t *password = json_object_get(root, "password");
 
-    printf("received login %s, password %s\n", json_string_value(login), json_string_value(password));
+    findUserByLogin(json_string_value(login));
 
     char *response = "{\"token\": \"eyJpZCI6IjEyMzQ1Njc4OTAiLCJuYW1lIjoiSm9obiBEb2UiLCJyb2xlIjoiQWRtaW4ifQ\"}";
     strncpy(responseBody, response, strlen(response));
+
 
     char status[statusBufferLength];
     strcpy(status, responseStatusOK);
