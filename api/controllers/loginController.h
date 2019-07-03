@@ -20,7 +20,7 @@ void loginController(char *requestBody, char responseBody[], char responseStatus
     json_t *requestPassword = json_object_get(requestJson, "password");
     json_t *userPassword = json_object_get(user, "password");
     if (user && json_equal(requestPassword, userPassword)) {
-        processSuccessfulLogin(requestJson, user, status, responseBody);
+        processSuccessfulLogin(user, status, responseBody);
     } else {
         strcpy(status, responseStatusBadRequest);
     }
