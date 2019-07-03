@@ -1,0 +1,15 @@
+POST /tests
+
+request:
+{
+  "questions": [
+    {
+        "text": "pytanie testowe 1",
+        "answers": ["answer 1", "answer 2"],
+        "correct": 1 (czyli druga)
+    }
+  ]
+}
+
+response:
+only status 200

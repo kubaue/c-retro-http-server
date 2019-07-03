@@ -1,0 +1,9 @@
+POST /groups
+
+request:
+{
+    "students": ["3021", "42124", "4414"]
+}
+
+response:
+only status 200
