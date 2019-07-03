@@ -1,5 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include "../controllers/loginController.h"
+
 #define BUFFER_LENGTH 16
 #define HTTP_BODY_LENGTH 1024
 
@@ -19,6 +21,18 @@ void dispatchHttpRequest(char *httpRequest) {
     extractMethod(method, httpRequest);
     extractPath(path, httpRequest, strlen(method));
     extractBody(body, httpRequest);
+//
+//    if(strcmp(method, "GET") == 0 && strcmp(path, "/login") == 0) {
+//        // loginController(body);
+//        printf("matched\n");
+//    } else {
+//        printf("Unmatched request: %s %s\n", method, path);
+//    }
+
+    printf("\nIncomming request\n");
+    printf("Method %s\n", method);
+    printf("Path %s\n", path);
+    printf("Body %s\n\n", body);
 }
 
 void extractMethod(char dest[], char *httpRequest) {
@@ -36,7 +50,11 @@ void extractPath(char dest[], char *httpRequest, int httpMethodLength) {
 void extractBody(char dest[], char *httpRequest) {
     memset(dest, '\0', HTTP_BODY_LENGTH);
     char *stripped = strchr(httpRequest, '{');
-    strncpy(dest, stripped, HTTP_BODY_LENGTH);
+    if (stripped == NULL) {
+        strncpy(dest, "{}", HTTP_BODY_LENGTH);
+    } else {
+        strncpy(dest, stripped, HTTP_BODY_LENGTH);
+    }
 }
 
 int lengthBeforeNextSpace(const char *inputString) {

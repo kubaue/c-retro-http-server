@@ -6,7 +6,7 @@
 #include <string.h>
 #include "httpDispatcher.h"
 
-#define PORT 8080
+#define PORT 8081
 
 void runHttpServer() {
     int server_fd, socketId;

@@ -9,8 +9,7 @@ request:
 response:
 status: 200 if ok
 {
-  "role": "admin",
-  "name": "Jerzy Kowalski"
+  "token": "eyJpZCI6IjEyMzQ1Njc4OTAiLCJuYW1lIjoiSm9obiBEb2UiLCJyb2xlIjoiQWRtaW4ifQ"
 }
 
 status 400 if bad credentials
