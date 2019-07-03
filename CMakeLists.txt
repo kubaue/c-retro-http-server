@@ -11,5 +11,5 @@ message ("--   mongoc libraries \"${MONGOC_LIBRARIES}\"")
 add_executable(test_exam api/main.c api/http/httpServer.h api/controllers/helloController.h api/base64.h api/controllers/loginController.h api/idGenerator.h api/repositories/mongoRepositories.h api/repositories/userRepository.h api/http/httpServer.h api/http/httpDispatcher.h api/http/httpResposeStatus.h)
 
 target_include_directories (test_exam PRIVATE "${MONGOC_INCLUDE_DIRS}")
-target_link_libraries (test_exam PRIVATE "${MONGOC_LIBRARIES}" ulfius)
+target_link_libraries (test_exam PRIVATE "${MONGOC_LIBRARIES}" ulfius jansson)
 target_compile_definitions (test_exam PRIVATE "${MONGOC_DEFINITIONS}")
