@@ -13,6 +13,8 @@ int lengthBeforeNextSpace(const char *inputString);
 
 void extractBody(char dest[], char *httpRequest);
 
+void buildHttpResponse(char *body, char responseStatus[], char responseBody[]);
+
 void dispatchHttpRequest(char *httpRequest, char httpResponseBody[]) {
     char requestMethod[bufferLength];
     char requestPath[bufferLength];
@@ -22,10 +24,14 @@ void dispatchHttpRequest(char *httpRequest, char httpResponseBody[]) {
     extractPath(requestPath, httpRequest, strlen(requestMethod));
     extractBody(requestBody, httpRequest);
 
+    char responseStatus[httpBufferLength];
     char responseBody[httpBufferLength];
 
+    memset(responseStatus, '\0', bufferLength);
+    memset(responseBody, '\0', httpBufferLength);
+
     if (strcmp(requestMethod, "POST") == 0 && strcmp(requestPath, "/login") == 0) {
-        loginController(requestBody, responseBody);
+        loginController(requestBody, responseBody, responseStatus);
     } else {
         printf("Unmatched request: %s %s\n", requestMethod, requestPath);
     }
@@ -33,11 +39,10 @@ void dispatchHttpRequest(char *httpRequest, char httpResponseBody[]) {
     printf("\nIncomming request\n");
     printf("Method %s\n", requestMethod);
     printf("Path %s\n", requestPath);
-    printf("Request body %s\n\n", requestBody);
+    printf("Request body %s\n", requestBody);
     printf("Response body %s\n\n", responseBody);
 
-    memset(httpResponseBody, '\0', httpBufferLength);
-    strcpy(httpResponseBody,  );
+    buildHttpResponse(httpResponseBody, responseStatus, responseBody);
 }
 
 void extractMethod(char dest[], char *httpRequest) {
@@ -50,6 +55,13 @@ void extractPath(char dest[], char *httpRequest, int httpMethodLength) {
 
     memset(dest, '\0', bufferLength);
     strncpy(dest, strippedFromMethodRequest, lengthBeforeNextSpace(strippedFromMethodRequest));
+}
+
+void buildHttpResponse(char *body, char responseStatus[], char responseBody[]) {
+    memset(body, '\0', httpBufferLength);
+    char response[httpBufferLength];
+    sprintf(response, "HTTP/1.1 %s\nContent-Type: text/plain\nContent-Length: %lu\n\n%s", responseStatus, strlen(responseBody), responseBody);
+    strcpy(body, response);
 }
 
 void extractBody(char dest[], char *httpRequest) {
