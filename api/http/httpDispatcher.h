@@ -4,6 +4,7 @@
 
 #define BUFFER_LENGTH 16
 #define HTTP_BODY_LENGTH 1024
+#define RESPONSE_BUFFER_LENGTH 1024
 
 void extractPath(char dest[], char *httpRequest, int httpMethodLength);
 
@@ -21,13 +22,15 @@ void dispatchHttpRequest(char *httpRequest) {
     extractMethod(method, httpRequest);
     extractPath(path, httpRequest, strlen(method));
     extractBody(body, httpRequest);
-//
-//    if(strcmp(method, "GET") == 0 && strcmp(path, "/login") == 0) {
-//        // loginController(body);
-//        printf("matched\n");
-//    } else {
-//        printf("Unmatched request: %s %s\n", method, path);
-//    }
+
+    char responseBody[RESPONSE_BUFFER_LENGTH];
+    char responseHeader[RESPONSE_BUFFER_LENGTH];
+
+    if (strcmp(method, "POST") == 0 && strcmp(path, "/login") == 0) {
+        loginController(body, responseBody);
+    } else {
+        printf("Unmatched request: %s %s\n", method, path);
+    }
 
     printf("\nIncomming request\n");
     printf("Method %s\n", method);

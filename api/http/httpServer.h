@@ -13,13 +13,12 @@ void runHttpServer() {
     struct sockaddr_in address;
     int addrlen = sizeof(address);
 
-    char *hello = "Hello from server";
+    char *hello = "HTTP/1.1 200 OK\nContent-Type: text/plain\nContent-Length: 12\n\nHello world!";
 
     if ((server_fd = socket(AF_INET, SOCK_STREAM, 0)) == 0) {
         perror("In socket");
         exit(EXIT_FAILURE);
     }
-
 
     address.sin_family = AF_INET;
     address.sin_addr.s_addr = INADDR_ANY;
