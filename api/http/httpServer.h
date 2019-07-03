@@ -15,7 +15,6 @@ void runHttpServer() {
     int server_fd, socketId;
     struct sockaddr_in address;
     int addrlen = sizeof(address);
-    char *hello = "HTTP/1.1 200 OK\nContent-Type: text/plain\nContent-Length: 12\n\nHello world!";
 
     if ((server_fd = socket(AF_INET, SOCK_STREAM, 0)) == 0) {
         perror("In socket");
@@ -40,6 +39,8 @@ void runHttpServer() {
     }
 
     printf("Running on port %i\n", portUsed);
+
+    char httpResponse[httpBufferLength];
     while (1) {
         if ((socketId = accept(server_fd, (struct sockaddr *) &address, (socklen_t *) &addrlen)) < 0) {
             perror("Error in accept\n");
@@ -48,9 +49,9 @@ void runHttpServer() {
 
         char buffer[30000] = {0};
         read(socketId, buffer, 30000);
-        dispatchHttpRequest(buffer);
+        dispatchHttpRequest(buffer, httpResponse);
 
-        write(socketId, hello, strlen(hello));
+        write(socketId, httpResponse, strlen(httpResponse));
         printf("Response sent\n");
         close(socketId);
     }

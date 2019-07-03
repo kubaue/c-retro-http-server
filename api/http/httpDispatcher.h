@@ -2,9 +2,8 @@
 #include <stdlib.h>
 #include "../controllers/loginController.h"
 
-#define BUFFER_LENGTH 16
-#define HTTP_BODY_LENGTH 1024
-#define RESPONSE_BUFFER_LENGTH 1024
+const int bufferLength = 16;
+const int httpBufferLength = 1024;
 
 void extractPath(char dest[], char *httpRequest, int httpMethodLength);
 
@@ -14,49 +13,52 @@ int lengthBeforeNextSpace(const char *inputString);
 
 void extractBody(char dest[], char *httpRequest);
 
-void dispatchHttpRequest(char *httpRequest) {
-    char method[BUFFER_LENGTH];
-    char path[BUFFER_LENGTH];
-    char body[HTTP_BODY_LENGTH];
+void dispatchHttpRequest(char *httpRequest, char httpResponseBody[]) {
+    char requestMethod[bufferLength];
+    char requestPath[bufferLength];
+    char requestBody[httpBufferLength];
 
-    extractMethod(method, httpRequest);
-    extractPath(path, httpRequest, strlen(method));
-    extractBody(body, httpRequest);
+    extractMethod(requestMethod, httpRequest);
+    extractPath(requestPath, httpRequest, strlen(requestMethod));
+    extractBody(requestBody, httpRequest);
 
-    char responseBody[RESPONSE_BUFFER_LENGTH];
-    char responseHeader[RESPONSE_BUFFER_LENGTH];
+    char responseBody[httpBufferLength];
 
-    if (strcmp(method, "POST") == 0 && strcmp(path, "/login") == 0) {
-        loginController(body, responseBody);
+    if (strcmp(requestMethod, "POST") == 0 && strcmp(requestPath, "/login") == 0) {
+        loginController(requestBody, responseBody);
     } else {
-        printf("Unmatched request: %s %s\n", method, path);
+        printf("Unmatched request: %s %s\n", requestMethod, requestPath);
     }
 
     printf("\nIncomming request\n");
-    printf("Method %s\n", method);
-    printf("Path %s\n", path);
-    printf("Body %s\n\n", body);
+    printf("Method %s\n", requestMethod);
+    printf("Path %s\n", requestPath);
+    printf("Request body %s\n\n", requestBody);
+    printf("Response body %s\n\n", responseBody);
+
+    memset(httpResponseBody, '\0', httpBufferLength);
+    strcpy(httpResponseBody,  );
 }
 
 void extractMethod(char dest[], char *httpRequest) {
-    memset(dest, '\0', BUFFER_LENGTH);
+    memset(dest, '\0', bufferLength);
     strncpy(dest, httpRequest, lengthBeforeNextSpace(httpRequest));
 }
 
 void extractPath(char dest[], char *httpRequest, int httpMethodLength) {
     char *strippedFromMethodRequest = httpRequest + httpMethodLength + 1;
 
-    memset(dest, '\0', BUFFER_LENGTH);
+    memset(dest, '\0', bufferLength);
     strncpy(dest, strippedFromMethodRequest, lengthBeforeNextSpace(strippedFromMethodRequest));
 }
 
 void extractBody(char dest[], char *httpRequest) {
-    memset(dest, '\0', HTTP_BODY_LENGTH);
+    memset(dest, '\0', httpBufferLength);
     char *stripped = strchr(httpRequest, '{');
     if (stripped == NULL) {
-        strncpy(dest, "{}", HTTP_BODY_LENGTH);
+        strncpy(dest, "{}", httpBufferLength);
     } else {
-        strncpy(dest, stripped, HTTP_BODY_LENGTH);
+        strncpy(dest, stripped, httpBufferLength);
     }
 }
 
