@@ -6,7 +6,7 @@
 #include "../repositories/userRepository.h"
 #include "../http/http.h"
 
-void processSuccessfulLogin();
+void processSuccessfulLogin(json_t *user, char status[], char responseBody[]);
 
 void loginController(char *requestBody, char responseBody[], char responseStatus[]) {
 
@@ -27,7 +27,7 @@ void loginController(char *requestBody, char responseBody[], char responseStatus
     strncpy(responseStatus, status, strlen(status));
 }
 
-void processSuccessfulLogin(json_t *requestJson, json_t *user, char status[], char responseBody[]) {
+void processSuccessfulLogin(json_t *user, char status[], char responseBody[]) {
     json_t *userId = json_object_get(user, "id");
     json_t *userName = json_object_get(user, "name");
     json_t *userRole = json_object_get(user, "role");
