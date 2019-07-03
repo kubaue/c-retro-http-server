@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "../controllers/loginController.h"
+#include "../controllers/groupsController.h"
 
 const int bufferLength = 16;
 
@@ -29,13 +30,17 @@ void dispatchHttpRequest(char *httpRequest, char httpResponseBody[]) {
     memset(responseStatus, '\0', bufferLength);
     memset(responseBody, '\0', httpBufferLength);
 
+    printf("\nIncomming request\n");
     if (strcmp(requestMethod, "POST") == 0 && strcmp(requestPath, "/login") == 0) {
+        printf("Dispatched to login controller\n");
         loginController(requestBody, responseBody, responseStatus);
+    } else if (strcmp(requestMethod, "POST") == 0 && strcmp(requestPath, "/groups") == 0) {
+        printf("Dispatched to create group controller\n");
+        createGroupController(requestBody, responseBody, responseStatus);
     } else {
         printf("Unmatched request: %s %s\n", requestMethod, requestPath);
     }
 
-    printf("\nIncomming request\n");
     printf("Method %s\n", requestMethod);
     printf("Path %s\n", requestPath);
     printf("Request body %s\n", requestBody);

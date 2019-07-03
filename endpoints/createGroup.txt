@@ -3,7 +3,6 @@ POST /groups
 request:
 {
   "groupName": "nazwa nowej grupy",
-  "students": ["1234", "5678"]
 }
 
 response:

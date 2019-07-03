@@ -13,8 +13,8 @@ json_t * findUserByLogin(const char *login) {
 
     mongoc_init();
 
-    client = mongoc_client_new("mongodb://admin:qwe123@ds263156.mlab.com:63156/pap-test-exam");
-    collection = mongoc_client_get_collection(client, "pap-test-exam", "users");
+    client = mongoc_client_new(connectionUrl);
+    collection = mongoc_client_get_collection(client, dbName, "users");
 
     query = BCON_NEW("login", login);
     cursor = mongoc_collection_find_with_opts(collection, query, NULL, NULL);
