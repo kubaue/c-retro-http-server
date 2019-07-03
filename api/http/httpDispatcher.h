@@ -3,7 +3,6 @@
 #include "../controllers/loginController.h"
 
 const int bufferLength = 16;
-const int httpBufferLength = 1024;
 
 void extractPath(char dest[], char *httpRequest, int httpMethodLength);
 
