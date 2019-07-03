@@ -40,6 +40,7 @@ void dispatchHttpRequest(char *httpRequest, char httpResponseBody[]) {
     printf("Method %s\n", requestMethod);
     printf("Path %s\n", requestPath);
     printf("Request body %s\n", requestBody);
+    printf("Response status %s\n", responseStatus);
     printf("Response body %s\n\n", responseBody);
 
     buildHttpResponse(httpResponseBody, responseStatus, responseBody);

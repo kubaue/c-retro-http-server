@@ -3,13 +3,13 @@
 #include <stdio.h>
 #include "./mongoRepositories.h"
 
-void findUserByLogin(const char *login) {
+json_t * findUserByLogin(const char *login) {
     mongoc_client_t *client;
     mongoc_collection_t *collection;
     mongoc_cursor_t *cursor;
     const bson_t *doc;
     bson_t *query;
-    char *str;
+    char *asString;
 
     mongoc_init();
 
@@ -20,9 +20,14 @@ void findUserByLogin(const char *login) {
     cursor = mongoc_collection_find_with_opts(collection, query, NULL, NULL);
 
     while (mongoc_cursor_next(cursor, &doc)) {
-        str = bson_as_canonical_extended_json(doc, NULL);
-        printf("%s\n", str);
-        bson_free(str);
+        asString = bson_as_canonical_extended_json(doc, NULL);
+
+        json_error_t error;
+
+        json_t *asJson = json_loads(asString, 0, &error);
+
+        bson_free(asString);
+        return asJson;
     }
 
     bson_destroy(query);

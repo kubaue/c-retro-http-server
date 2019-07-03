@@ -10,15 +10,20 @@ void loginController(char *requestBody, char responseBody[], char responseStatus
     json_error_t error;
     json_t *root = json_loads(requestBody, 0, &error);
     json_t *login = json_object_get(root, "login");
-    json_t *password = json_object_get(root, "password");
+    json_t *requestPassword = json_object_get(root, "password");
 
-    findUserByLogin(json_string_value(login));
+    json_t *user = findUserByLogin(json_string_value(login));
 
-    char *response = "{\"token\": \"eyJpZCI6IjEyMzQ1Njc4OTAiLCJuYW1lIjoiSm9obiBEb2UiLCJyb2xlIjoiQWRtaW4ifQ\"}";
-    strncpy(responseBody, response, strlen(response));
+    json_t *userPassword = json_object_get(user, "password");
 
 
     char status[statusBufferLength];
-    strcpy(status, responseStatusOK);
+    if (user && json_equal(requestPassword, userPassword)) {
+        strcpy(status, responseStatusOK);
+        char *response = "{\"token\": \"eyJpZCI6IjEyMzQ1Njc4OTAiLCJuYW1lIjoiSm9obiBEb2UiLCJyb2xlIjoiQWRtaW4ifQ\"}";
+        strncpy(responseBody, response, strlen(response));
+    } else {
+        strcpy(status, responseStatusBadRequest);
+    }
     strncpy(responseStatus, status, strlen(status));
 }
