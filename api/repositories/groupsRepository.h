@@ -8,10 +8,8 @@ void createGroup(const char *newGroupName) {
     mongoc_client_t *client;
     mongoc_collection_t *collection;
     bson_error_t error;
-    mongoc_cursor_t *cursor;
     bson_oid_t oid;
     bson_t *doc;
-    bson_t *query;
 
     mongoc_init();
 
@@ -30,15 +28,13 @@ void createGroup(const char *newGroupName) {
     strcpy(groupName, newGroupName);
 
     BSON_APPEND_UTF8 (doc, "id", groupId);
-//    BSON_APPEND_UTF8 (doc, "groupName", groupName);
+    BSON_APPEND_UTF8 (doc, "groupName", groupName);
 
     if (!mongoc_collection_insert_one(
             collection, doc, NULL, NULL, &error)) {
         fprintf(stderr, "Error inserting document%s\n", error.message);
     }
 
-    bson_destroy(query);
-    mongoc_cursor_destroy(cursor);
     mongoc_collection_destroy(collection);
     mongoc_client_destroy(client);
     mongoc_cleanup();

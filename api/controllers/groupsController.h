@@ -9,8 +9,6 @@ void createGroupController(char *requestBody, char responseBody[], char response
 
     const char *group = json_string_value(groupName);
 
-
-    printf("group %s", group);
     createGroup(group);
 
     char status[statusBufferLength];
