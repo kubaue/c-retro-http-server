@@ -1,10 +1,10 @@
 #include <string.h>
 #include <jansson.h>
-#include "../base64/base64.h"
 #include "../idGenerator.h"
 #include "../http/httpResposeStatus.h"
 #include "../repositories/userRepository.h"
 #include "../http/http.h"
+#include "../base64/base64Encode.h"
 
 void processSuccessfulLogin(json_t *user, char status[], char responseBody[]);
 

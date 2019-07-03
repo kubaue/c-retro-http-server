@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include "../controllers/loginController.h"
 #include "../controllers/groupsController.h"
+#include "../base64/base64Decode.h"
 
 const int bufferLength = 16;
 
@@ -13,16 +14,22 @@ int lengthBeforeNextSpace(const char *inputString);
 
 void extractBody(char dest[], char *httpRequest);
 
+void extractUserRole(char dest[], char *httpRequest);
+
 void buildHttpResponse(char *body, char responseStatus[], char responseBody[]);
+
+unsigned long long lengthBeforeEOL(const char *inputString);
 
 void dispatchHttpRequest(char *httpRequest, char httpResponseBody[]) {
     char requestMethod[bufferLength];
     char requestPath[bufferLength];
     char requestBody[httpBufferLength];
+    char userRole[httpBufferLength];
 
     extractMethod(requestMethod, httpRequest);
     extractPath(requestPath, httpRequest, strlen(requestMethod));
     extractBody(requestBody, httpRequest);
+    extractUserRole(userRole, httpRequest);
 
     char responseStatus[httpBufferLength];
     char responseBody[httpBufferLength];
@@ -41,11 +48,12 @@ void dispatchHttpRequest(char *httpRequest, char httpResponseBody[]) {
         printf("Unmatched request: %s %s\n", requestMethod, requestPath);
     }
 
-    printf("Method %s\n", requestMethod);
-    printf("Path %s\n", requestPath);
-    printf("Request body %s\n", requestBody);
-    printf("Response status %s\n", responseStatus);
-    printf("Response body %s\n\n", responseBody);
+    printf("HTTP method: %s\n", requestMethod);
+    printf("Path: %s\n", requestPath);
+    printf("Request body: %s\n", requestBody);
+    printf("User role: %s\n\n", userRole);
+    printf("Response status: %s\n", responseStatus);
+    printf("Response body: %s\n\n", responseBody);
 
     buildHttpResponse(httpResponseBody, responseStatus, responseBody);
 }
@@ -79,10 +87,49 @@ void extractBody(char dest[], char *httpRequest) {
     }
 }
 
+void extractUserRole(char *dest, char *httpRequest) {
+
+    char *strippedToAuthorizationHeader = strstr(httpRequest, "Authorization: ");
+
+    if(strippedToAuthorizationHeader == NULL) {
+        strncpy(dest, "", 0);
+        return;
+    }
+
+    char token[httpBufferLength];
+    char *strippedAuthorizationHeaderValue = strippedToAuthorizationHeader + 15;
+
+    memset(token, '\0', httpBufferLength);
+    int tokenLength = lengthBeforeEOL(strippedAuthorizationHeaderValue);
+    strncpy(token, strippedAuthorizationHeaderValue, tokenLength);
+
+    unsigned char *tokenContents = b64_decode("eyJuYW1lIjogImJsYWRhIiwgInJvbGUiOiAiYWRtaW4ifQ==", strlen("eyJuYW1lIjogImJsYWRhIiwgInJvbGUiOiAiYWRtaW4ifQ=="));
+
+    json_error_t error;
+    json_t *requestJson = json_loads((char *) tokenContents, 0, &error);
+    json_t *role = json_object_get(requestJson, "role");
+
+    memset(dest, '\0', httpBufferLength);
+    const char *roleAsString = json_string_value(role);
+    strncpy(dest, roleAsString, strlen(roleAsString));
+}
+
 int lengthBeforeNextSpace(const char *inputString) {
     int count = 0;
-    for (int i = 0; i < sizeof(inputString); i++) {
+    for (int i = 0; i < strlen(inputString); i++) {
         if (inputString[i] == ' ') {
+            return count;
+        }
+        count += 1;
+    }
+
+    return -1;
+}
+
+unsigned long long lengthBeforeEOL(const char *inputString) {
+    unsigned long long count = 0;
+    for (int i = 0; i < strlen(inputString); i++) {
+        if (inputString[i] == '\r') {
             return count;
         }
         count += 1;
