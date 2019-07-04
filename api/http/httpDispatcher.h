@@ -43,7 +43,7 @@ void dispatchHttpRequest(char *httpRequest, char httpResponseBody[]) {
         loginController(requestBody, responseBody, responseStatus);
     } else if (strcmp(requestMethod, "POST") == 0 && strcmp(requestPath, "/groups") == 0) {
         printf("Dispatched to create group controller\n");
-        createGroupController(requestBody, responseBody, responseStatus);
+        createGroupController(requestBody, userRole, responseBody, responseStatus);
     } else {
         printf("Unmatched request: %s %s\n", requestMethod, requestPath);
     }
@@ -51,7 +51,7 @@ void dispatchHttpRequest(char *httpRequest, char httpResponseBody[]) {
     printf("HTTP method: %s\n", requestMethod);
     printf("Path: %s\n", requestPath);
     printf("Request body: %s\n", requestBody);
-    printf("User role: %s\n\n", userRole);
+    printf("User role: %s\n", userRole);
     printf("Response status: %s\n", responseStatus);
     printf("Response body: %s\n\n", responseBody);
 
@@ -103,7 +103,7 @@ void extractUserRole(char *dest, char *httpRequest) {
     int tokenLength = lengthBeforeEOL(strippedAuthorizationHeaderValue);
     strncpy(token, strippedAuthorizationHeaderValue, tokenLength);
 
-    unsigned char *tokenContents = b64_decode("eyJuYW1lIjogImJsYWRhIiwgInJvbGUiOiAiYWRtaW4ifQ==", strlen("eyJuYW1lIjogImJsYWRhIiwgInJvbGUiOiAiYWRtaW4ifQ=="));
+    unsigned char *tokenContents = b64_decode(token, strlen(token));
 
     json_error_t error;
     json_t *requestJson = json_loads((char *) tokenContents, 0, &error);

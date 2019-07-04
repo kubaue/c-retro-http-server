@@ -1,4 +1,4 @@
-const int statusBufferLength = 16;
+const int statusBufferLength = 32;
 
 const char *responseStatusOK = "200 OK";
 
