@@ -21,7 +21,7 @@ void createGroupController(char *requestBody, char userRole[], char responseBody
     }
 }
 
-void editGroupController(char *requestBody, char userRole[], char responseBody[], char responseStatus[]) {
+void assignStudentController(char *requestBody, char *userRole, char *responseBody, char *responseStatus) {
     if (strcmp(userRole, "admin") == 0) {
         json_error_t error;
         json_t *requestJson = json_loads(requestBody, 0, &error);
@@ -32,6 +32,26 @@ void editGroupController(char *requestBody, char userRole[], char responseBody[]
         const char *student = json_string_value(studentJson);
 
         assignStudentToGroup(groupId, student);
+
+        char status[statusBufferLength];
+        strcpy(status, responseStatusOK);
+        strncpy(responseStatus, status, strlen(status));
+    } else {
+        unauthorizedForGroupManipulations(responseStatus);
+    }
+}
+
+void removeStudentFromGroupController(char *requestBody, char userRole[], char responseBody[], char responseStatus[]) {
+    if (strcmp(userRole, "admin") == 0) {
+        json_error_t error;
+        json_t *requestJson = json_loads(requestBody, 0, &error);
+        json_t *groupIdJson = json_object_get(requestJson, "groupId");
+        json_t *studentJson = json_object_get(requestJson, "student");
+
+        const char *groupId = json_string_value(groupIdJson);
+        const char *student = json_string_value(studentJson);
+
+        removeStudentFromGroup(groupId, student);
 
         char status[statusBufferLength];
         strcpy(status, responseStatusOK);

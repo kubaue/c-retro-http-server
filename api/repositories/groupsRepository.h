@@ -72,3 +72,32 @@ void assignStudentToGroup(const char *groupId, const char *student) {
     mongoc_client_destroy(client);
     mongoc_cleanup();
 }
+
+void removeStudentFromGroup(const char *groupId, const char *student) {
+    mongoc_collection_t *collection;
+    mongoc_client_t *client;
+    bson_error_t error;
+    bson_oid_t oid;
+    bson_t *update = NULL;
+    bson_t *query = NULL;
+
+    mongoc_init();
+
+    client = mongoc_client_new(connectionUrl);
+    collection = mongoc_client_get_collection(client, dbName, "groups");
+
+    bson_oid_init(&oid, NULL);
+
+    query = BCON_NEW("id", groupId);
+
+    update = BCON_NEW ("$pull", "{", "students", BCON_UTF8(student), "}");
+
+    if (!mongoc_collection_update_one(
+            collection, query, update, NULL, NULL, &error)) {
+        fprintf(stderr, "%s\n", error.message);
+    }
+
+    mongoc_collection_destroy(collection);
+    mongoc_client_destroy(client);
+    mongoc_cleanup();
+}

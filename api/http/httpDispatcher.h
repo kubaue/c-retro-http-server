@@ -4,7 +4,7 @@
 #include "../controllers/groupsController.h"
 #include "../base64/base64Decode.h"
 
-const int bufferLength = 16;
+const int bufferLength = 32;
 
 void extractPath(char dest[], char *httpRequest, int httpMethodLength);
 
@@ -44,9 +44,12 @@ void dispatchHttpRequest(char *httpRequest, char httpResponseBody[]) {
     } else if (strcmp(requestMethod, "POST") == 0 && strcmp(requestPath, "/groups") == 0) {
         printf("Dispatched to create group controller\n");
         createGroupController(requestBody, userRole, responseBody, responseStatus);
-    } else if (strcmp(requestMethod, "PUT") == 0 && strcmp(requestPath, "/groups") == 0) {
-        printf("Dispatched to update group controller\n");
-        editGroupController(requestBody, userRole, responseBody, responseStatus);
+    } else if (strcmp(requestMethod, "POST") == 0 && strcmp(requestPath, "/groups/assignStudent") == 0) {
+        printf("Dispatched to assignStudent controller\n");
+        assignStudentController(requestBody, userRole, responseBody, responseStatus);
+    } else if (strcmp(requestMethod, "POST") == 0 && strcmp(requestPath, "/groups/removeStudent") == 0) {
+        printf("Dispatched to removeStudent controller\n");
+        removeStudentFromGroupController(requestBody, userRole, responseBody, responseStatus);
     } else {
         printf("Unmatched request: %s %s\n", requestMethod, requestPath);
     }
