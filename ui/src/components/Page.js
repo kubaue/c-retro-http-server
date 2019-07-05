@@ -1,10 +1,10 @@
 import React from "react";
-import styles from './Page.module.css';
+import styles from './AppPage.module.css';
 
 export class Page extends React.Component {
   render () {
     return (
-      <div style={styles.container}>
+      <div className={styles.container}>
         <div>{this.props.children}</div>
       </div>
     );
