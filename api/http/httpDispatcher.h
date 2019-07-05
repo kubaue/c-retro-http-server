@@ -79,7 +79,9 @@ void extractPath(char dest[], char *httpRequest, int httpMethodLength) {
 void buildHttpResponse(char *body, char responseStatus[], char responseBody[]) {
     memset(body, '\0', httpBufferLength);
     char response[httpBufferLength];
-    sprintf(response, "HTTP/1.1 %s\nContent-Type: text/plain\nContent-Length: %lu\n\n%s", responseStatus, strlen(responseBody), responseBody);
+    sprintf(response,
+            "HTTP/1.1 %s\nContent-Type: text/plain\nContent-Length: %lu\nAccess-Control-Allow-Origin: *\nAccess-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With\n\n%s",
+            responseStatus, strlen(responseBody), responseBody);
     strcpy(body, response);
 }
 

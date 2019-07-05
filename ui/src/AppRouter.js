@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Redirect, Route, Router } from "react-router";
-import { LoginPage } from "./components/pages/LoginPage";
+import LoginPage from "./components/pages/LoginPage";
 import { GroupsPage } from "./components/pages/GroupsPage";
 import { createBrowserHistory } from "history";
 import { isLoggedIn } from "./selectors/authSelectors";
@@ -9,7 +9,7 @@ import connect from "react-redux/es/connect/connect";
 const history = createBrowserHistory();
 
 class AppRouter extends Component {
-  render () {
+  render() {
     const loggedIn = this.props.isLoggedIn;
     return (
       <Router history={history}>
@@ -21,7 +21,7 @@ class AppRouter extends Component {
 }
 
 class PrivateRoute extends Component {
-  render () {
+  render() {
     if (this.props.isLoggedIn) {
       return <Route path={this.props.path} component={this.props.component} />
     } else {

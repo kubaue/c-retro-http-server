@@ -1,0 +1,14 @@
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.page {
+    margin-top: 16px;
+    width: 800px;
+    border: 1px solid gray;
+    border-radius: 8px;
+    padding: 8px;
+    background-color: #cdcdcd;
+}

@@ -1,15 +1,16 @@
 export const ActionType = {
   LOG_IN: 'LOG_IN',
   LOG_IN_SUCCESS: 'LOG_IN_SUCCESS',
+  LOG_IN_FAILED: 'LOG_IN_FAILED',
   LOG_OUT: 'LOG_OUT',
   API_ERROR_OCCURRED: 'API_ERROR_OCCURRED'
 };
 
-export const logIn = (username, password) => {
+export const logIn = (login, password) => {
   return {
     type: ActionType.LOG_IN,
     payload: {
-      username,
+      login,
       password
     }
   }
@@ -21,6 +22,13 @@ export const logInSuccess = (token) => {
     payload: {
       token
     }
+  }
+};
+
+export const logInFailed = () => {
+  return {
+    type: ActionType.LOG_IN_FAILED,
+    payload: {}
   }
 };
 
