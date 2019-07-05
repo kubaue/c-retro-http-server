@@ -1,12 +1,13 @@
 import React from "react";
+import PageWithRouting from '../PageWithRouting';
 
 export class GroupsPage extends React.Component {
 
   render () {
     return (
-      <div>
-        Groups
-      </div>
+      <PageWithRouting title={'Home'}>
+        <div>Groups</div>
+      </PageWithRouting>
     );
   }
 }

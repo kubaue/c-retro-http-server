@@ -1,13 +1,13 @@
 import React from "react";
-import { Page } from '../Page';
+import PageWithRouting from '../PageWithRouting';
 
 export class HomePage extends React.Component {
 
   render () {
     return (
-      <Page>
+      <PageWithRouting title={'Home'}>
         <div>Home</div>
-      </Page>
+      </PageWithRouting>
     );
   }
 }

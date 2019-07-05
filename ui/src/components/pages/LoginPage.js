@@ -3,9 +3,10 @@ import { Page } from '../Page';
 import styles from './LoginPage.module.css';
 import { connect } from 'react-redux';
 import { logIn } from '../../actions/actions';
+import { isLoggedIn } from '../../selectors/authSelectors';
+import { Redirect } from 'react-router';
 
 class LoginPage extends React.Component {
-
 
   constructor(props) {
     super(props);
@@ -16,6 +17,10 @@ class LoginPage extends React.Component {
   }
 
   render() {
+    if (this.props.isLoggedIn) {
+      return <Redirect to={'/home'} />
+    }
+
     return (
       <Page>
         <div className={styles.container}>
@@ -44,7 +49,8 @@ class LoginPage extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    attemptFailed: state.auth.attemptFailed
+    attemptFailed: state.auth.attemptFailed,
+    isLoggedIn: isLoggedIn(state)
   };
 };
 
