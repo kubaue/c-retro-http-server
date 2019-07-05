@@ -11,9 +11,6 @@ class PageWithRouting extends React.Component {
     return (
       <Page>
         <div className={styles.authenticationRow}>
-          <div>
-            Hello, {this.props.userName}. You are logged as {this.props.userRole}.
-          </div>
           <div onClick={() => this.props.logOut()} className={styles.logOut}>Log out</div>
         </div>
         <div className={styles.titleContainer}>
@@ -49,7 +46,6 @@ const mapStateToProps = (state) => {
   const user = userData(state);
   return {
     userRole: user.role,
-    userName: user.name,
   };
 };
 
