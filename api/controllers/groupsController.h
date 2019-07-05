@@ -3,6 +3,21 @@
 
 void unauthorizedForGroupManipulations(char *responseStatus);
 
+void getGroupsController(char *requestBody, char userRole[], char responseBody[], char responseStatus[]) {
+    if (strcmp(userRole, "admin") == 0 || strcmp(userRole, "examiner") == 0) {
+        char allGroupsJson[httpBufferLength];
+
+        findAllGroups(allGroupsJson);
+
+        char status[statusBufferLength];
+        strcpy(status, responseStatusOK);
+        strncpy(responseStatus, status, strlen(status));
+        strncpy(responseBody, allGroupsJson, strlen(allGroupsJson));
+    } else {
+        unauthorizedForGroupManipulations(responseStatus);
+    }
+}
+
 void createGroupController(char *requestBody, char userRole[], char responseBody[], char responseStatus[]) {
     if (strcmp(userRole, "admin") == 0) {
         json_error_t error;

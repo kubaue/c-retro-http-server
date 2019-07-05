@@ -41,6 +41,9 @@ void dispatchHttpRequest(char *httpRequest, char httpResponseBody[]) {
     if (strcmp(requestMethod, "POST") == 0 && strcmp(requestPath, "/login") == 0) {
         printf("Dispatched to login controller\n");
         loginController(requestBody, responseBody, responseStatus);
+    } else if (strcmp(requestMethod, "GET") == 0 && strcmp(requestPath, "/groups") == 0) {
+        printf("Dispatched to get groups controller\n");
+        getGroupsController(requestBody, userRole, responseBody, responseStatus);
     } else if (strcmp(requestMethod, "POST") == 0 && strcmp(requestPath, "/groups") == 0) {
         printf("Dispatched to create group controller\n");
         createGroupController(requestBody, userRole, responseBody, responseStatus);
