@@ -4,6 +4,7 @@ import styles from './PageWithRouting.module.css'
 import { connect } from 'react-redux';
 import { userData } from '../selectors/authSelectors';
 import browserHistory from '../history';
+import { logOut } from '../actions/actions';
 
 class PageWithRouting extends React.Component {
   render() {
@@ -13,7 +14,7 @@ class PageWithRouting extends React.Component {
           <div>
             Hello, {this.props.userName}. You are logged as {this.props.userRole}.
           </div>
-          <div className={styles.logOut}>Log out</div>
+          <div onClick={() => this.props.logOut()} className={styles.logOut}>Log out</div>
         </div>
         <div className={styles.titleContainer}>
           <h1>{this.props.title}</h1>
@@ -52,6 +53,8 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = {};
+const mapDispatchToProps = {
+  logOut
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(PageWithRouting)

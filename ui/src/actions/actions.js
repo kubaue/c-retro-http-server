@@ -16,6 +16,13 @@ export const logIn = (login, password) => {
   }
 };
 
+export const logOut = () => {
+  return {
+    type: ActionType.LOG_OUT,
+    payload: {}
+  }
+};
+
 export const logInSuccess = (token) => {
   return {
     type: ActionType.LOG_IN_SUCCESS,
