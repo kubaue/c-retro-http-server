@@ -62,7 +62,17 @@ void findAllStudents(char dest[]) {
             strcat(dest, ",\n");
         }
 
-        char *currentEntry = bson_as_canonical_extended_json(doc, NULL);
+        char *currentRawEntry = bson_as_canonical_extended_json(doc, NULL);
+
+        json_error_t error;
+        json_t *requestJson = json_loads(currentRawEntry, 0, &error);
+        json_t *id = json_object_get(requestJson, "id");
+        json_t *name = json_object_get(requestJson, "name");
+
+        char currentEntry[100];
+        memset(currentEntry, '\0', 100);
+        sprintf(currentEntry, "{\"id\": \"%s\", \"name\": \"%s\"}", json_string_value(id), json_string_value(name));
+
         strcat(dest, currentEntry);
     }
     strcat(dest, "\n]\n}");
