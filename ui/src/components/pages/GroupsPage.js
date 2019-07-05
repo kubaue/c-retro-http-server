@@ -7,7 +7,6 @@ import browserHistory from '../../history';
 
 class GroupsPage extends React.Component {
 
-
   constructor(props) {
     super(props);
     this.state = {

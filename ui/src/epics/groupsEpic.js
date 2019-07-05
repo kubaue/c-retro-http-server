@@ -28,7 +28,7 @@ const assignStudentEpic = (action$, state) => action$.pipe(
 );
 
 const removeStudentEpic = (action$, state) => action$.pipe(
-  ofType(ActionType.ASSIGN_STUDENT),
+  ofType(ActionType.REMOVE_STUDENT),
   mergeMap((action) =>
     ajax.post(`${API_URL}/groups/removeStudent`, JSON.stringify(action.payload), { 'Content-Type': 'application/json', 'Authorization': getToken(state.value) }).pipe(
       map(wholeRequestData => removeStudentSuccess()),

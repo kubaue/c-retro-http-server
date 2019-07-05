@@ -1,10 +1,18 @@
 import React from "react";
 import PageWithRouting from '../PageWithRouting';
 import { connect } from 'react-redux';
-import { createGroup, fetchGroups, fetchStudents } from '../../actions/actions';
-import styles from './GroupsPage.module.css';
+import { assignStudent, createGroup, fetchGroups, fetchStudents, removeStudent } from '../../actions/actions';
+import styles from './GroupPage.module.css';
+import _ from 'lodash';
 
 class GroupsPage extends React.Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      selectedStudent: ''
+    }
+  }
 
   componentDidMount() {
     this.props.fetchGroups();
@@ -12,39 +20,60 @@ class GroupsPage extends React.Component {
   }
 
   render() {
-    if (this.selectedGroup()) {
+    if (this.selectedGroup() && this.props.students.length) {
       return (
         <PageWithRouting title={this.selectedGroup().groupName}>
-          {/*<div className={styles.container}>*/}
-          {/*<div className={`${styles.group} ${styles.header}`}>*/}
-          {/*<div className={styles.groupId}>Group ID</div>*/}
-          {/*<div className={styles.groupName}>Name</div>*/}
-          {/*</div>*/}
-          {/*{this.props.groups.map(group => this.renderGroup(group))}*/}
-          {/*<div className={styles.createGroupContainer}>*/}
-          {/*<input onChange={(event) => this.setState({groupName: event.target.value})} value={this.state.groupName}/>*/}
-          {/*<button onClick={() => this.createGroup()}>Create group</button>*/}
-          {/*</div>*/}
-          {/*</div>*/}
+          <div className={styles.container}>
+            <div className={`${styles.student} ${styles.header}`}>
+              <div className={styles.studentId}>Student ID</div>
+              <div className={styles.studentName}>Student name</div>
+            </div>
+            {this.studentsInGroup().map(student => this.renderStudent(student))}
+            <div className={styles.assignStudentContainer}>
+              <select onChange={(event) => this.setState({ selectedStudent: event.target.value })} value={this.state.selectedStudent}>
+                <option value={''}/>
+                {this.studentsNotInGroup().map(student => <option key={student.id} value={student.id}>{student.name}</option>)}
+              </select>
+              <button onClick={() => this.assignStudent()}>Assign student</button>
+            </div>
+          </div>
         </PageWithRouting>
       );
     }
     return null;
   }
 
-  renderGroup(group) {
+  renderStudent(student) {
     return <div
-      onClick={() => this.navigateToGroup(group)}
-      className={styles.group}
-      key={group.id}
+      onClick={() => this.navigateToGroup(student)}
+      className={styles.student}
+      key={student.id}
     >
-      <div className={styles.groupId}>{group.id}</div>
-      <div className={styles.groupName}>{group.groupName}</div>
+      <div className={styles.studentId}>{student.id}</div>
+      <div className={styles.studentName}>{student.name}</div>
     </div>
   }
 
   selectedGroup() {
     return this.props.groups.find(group => group.id === this.props.match.params.id);
+  }
+
+  studentsInGroup() {
+    return _.flatMap(this.props.groups, (group => group.students)).map(studentId => this.props.students.find(student => student.id === studentId))
+  }
+
+  studentsNotInGroup() {
+    const studentIdsInGroup = _.flatMap(this.props.groups, group => group.students);
+    return this.props.students.filter(student => !studentIdsInGroup.includes(student.id));
+  }
+
+  assignStudent() {
+    const selectedStudent = this.state.selectedStudent;
+    if(selectedStudent) {
+      this.setState({selectedStudent: ''});
+      this.props.assignStudent(this.selectedGroup().id, selectedStudent);
+
+    }
   }
 }
 
@@ -58,7 +87,9 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = {
   fetchGroups,
   fetchStudents,
-  createGroup
+  createGroup,
+  assignStudent,
+  removeStudent
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(GroupsPage)

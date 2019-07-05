@@ -90,10 +90,13 @@ export const fetchStudentsSuccess = (students) => {
   }
 };
 
-export const assignStudent = (groupId, studentId) => {
+export const assignStudent = (groupId, student) => {
   return {
     type: ActionType.ASSIGN_STUDENT,
-    payload: {}
+    payload: {
+      groupId,
+      student
+    }
   }
 };
 
@@ -104,10 +107,13 @@ export const assignStudentSuccess = () => {
   }
 };
 
-export const removeStudent = (groupId, studentId) => {
+export const removeStudent = (groupId, student) => {
   return {
     type: ActionType.REMOVE_STUDENT,
-    payload: {}
+    payload: {
+      groupId,
+      student
+    }
   }
 };
 
