@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "../controllers/loginController.h"
+#include "../controllers/usersController.h"
 #include "../controllers/groupsController.h"
 #include "../base64/base64Decode.h"
 
@@ -39,20 +39,17 @@ void dispatchHttpRequest(char *httpRequest, char httpResponseBody[]) {
 
     printf("\nIncomming request\n");
     if (strcmp(requestMethod, "POST") == 0 && strcmp(requestPath, "/login") == 0) {
-        printf("Dispatched to login controller\n");
         loginController(requestBody, responseBody, responseStatus);
     } else if (strcmp(requestMethod, "GET") == 0 && strcmp(requestPath, "/groups") == 0) {
-        printf("Dispatched to get groups controller\n");
         getGroupsController(requestBody, userRole, responseBody, responseStatus);
     } else if (strcmp(requestMethod, "POST") == 0 && strcmp(requestPath, "/groups") == 0) {
-        printf("Dispatched to create group controller\n");
         createGroupController(requestBody, userRole, responseBody, responseStatus);
     } else if (strcmp(requestMethod, "POST") == 0 && strcmp(requestPath, "/groups/assignStudent") == 0) {
-        printf("Dispatched to assignStudent controller\n");
         assignStudentController(requestBody, userRole, responseBody, responseStatus);
     } else if (strcmp(requestMethod, "POST") == 0 && strcmp(requestPath, "/groups/removeStudent") == 0) {
-        printf("Dispatched to removeStudent controller\n");
         removeStudentFromGroupController(requestBody, userRole, responseBody, responseStatus);
+    } else if (strcmp(requestMethod, "GET") == 0 && strcmp(requestPath, "/students") == 0) {
+        getStudentsController(requestBody, userRole, responseBody, responseStatus);
     } else {
         printf("Unmatched request: %s %s\n", requestMethod, requestPath);
     }

@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include "./mongoRepositories.h"
 
-json_t * findUserByLogin(const char *login) {
+json_t *findUserByLogin(const char *login) {
     mongoc_client_t *client;
     mongoc_collection_t *collection;
     mongoc_cursor_t *cursor;
@@ -29,6 +29,43 @@ json_t * findUserByLogin(const char *login) {
         bson_free(asString);
         return asJson;
     }
+
+    bson_destroy(query);
+    mongoc_cursor_destroy(cursor);
+    mongoc_collection_destroy(collection);
+    mongoc_client_destroy(client);
+    mongoc_cleanup();
+}
+
+
+void findAllStudents(char dest[]) {
+    mongoc_client_t *client;
+    mongoc_collection_t *collection;
+    mongoc_cursor_t *cursor;
+    const bson_t *doc;
+    bson_t *query;
+    int first = 1;
+
+    mongoc_init();
+
+    client = mongoc_client_new(connectionUrl);
+    collection = mongoc_client_get_collection(client, dbName, "users");
+
+    query = BCON_NEW("role", "student");
+    cursor = mongoc_collection_find_with_opts(collection, query, NULL, NULL);
+
+    strcpy(dest, "{\"users\": [\n");
+    while (mongoc_cursor_next(cursor, &doc)) {
+        if (first == 1) {
+            first = 0;
+        } else {
+            strcat(dest, ",\n");
+        }
+
+        char *currentEntry = bson_as_canonical_extended_json(doc, NULL);
+        strcat(dest, currentEntry);
+    }
+    strcat(dest, "\n]\n}");
 
     bson_destroy(query);
     mongoc_cursor_destroy(cursor);

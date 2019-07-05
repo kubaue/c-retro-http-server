@@ -8,6 +8,23 @@
 
 void processSuccessfulLogin(json_t *user, char status[], char responseBody[]);
 
+void unauthorizedForGettingStudents(char *responseStatus);
+
+void getStudentsController(char *requestBody, char userRole[], char responseBody[], char responseStatus[]) {
+    if (strcmp(userRole, "admin") == 0 || strcmp(userRole, "examiner") == 0) {
+        char allStudentsJson[httpBufferLength];
+
+        findAllStudents(allStudentsJson);
+
+        char status[statusBufferLength];
+        strcpy(status, responseStatusOK);
+        strncpy(responseStatus, status, strlen(status));
+        strncpy(responseBody, allStudentsJson, strlen(allStudentsJson));
+    } else {
+        unauthorizedForGettingStudents(responseStatus);
+    }
+}
+
 void loginController(char *requestBody, char responseBody[], char responseStatus[]) {
 
     json_error_t error;
@@ -24,6 +41,14 @@ void loginController(char *requestBody, char responseBody[], char responseStatus
     } else {
         strcpy(status, responseStatusBadRequest);
     }
+    strncpy(responseStatus, status, strlen(status));
+}
+
+void unauthorizedForGettingStudents(char *responseStatus) {
+    char status[statusBufferLength];
+    memset(status, '\0', statusBufferLength);
+    strcpy(status, responseStatusUnauthorized);
+    memset(responseStatus, '\0', httpBufferLength);
     strncpy(responseStatus, status, strlen(status));
 }
 

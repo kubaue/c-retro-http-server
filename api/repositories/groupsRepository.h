@@ -129,7 +129,7 @@ void findAllGroups(char dest[]) {
         char *currentEntry = bson_as_canonical_extended_json(doc, NULL);
         strcat(dest, currentEntry);
     }
-    strcat(dest, "]\n}");
+    strcat(dest, "\n]\n}");
 
     bson_destroy(query);
     mongoc_cursor_destroy(cursor);
