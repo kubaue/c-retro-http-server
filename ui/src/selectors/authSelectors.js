@@ -6,5 +6,6 @@ export const userData = (state) => {
 };
 
 export const isLoggedIn = (state) => {
-  return !!userData(state);
+  const user = userData(state);
+  return !!user.name;
 };
