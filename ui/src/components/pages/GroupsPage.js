@@ -1,10 +1,19 @@
 import React from "react";
 import PageWithRouting from '../PageWithRouting';
 import { connect } from 'react-redux';
-import { fetchGroups, fetchStudents } from '../../actions/actions';
+import { createGroup, fetchGroups, fetchStudents } from '../../actions/actions';
 import styles from './GroupsPage.module.css';
+import browserHistory from '../../history';
 
 class GroupsPage extends React.Component {
+
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      groupName: ''
+    }
+  }
 
   componentDidMount() {
     this.props.fetchGroups();
@@ -20,6 +29,10 @@ class GroupsPage extends React.Component {
             <div className={styles.groupName}>Name</div>
           </div>
           {this.props.groups.map(group => this.renderGroup(group))}
+          <div className={styles.createGroupContainer}>
+            <input onChange={(event) => this.setState({groupName: event.target.value})} value={this.state.groupName}/>
+            <button onClick={() => this.createGroup()}>Create group</button>
+          </div>
         </div>
       </PageWithRouting>
     );
@@ -37,7 +50,11 @@ class GroupsPage extends React.Component {
   }
 
   navigateToGroup(group) {
+    browserHistory.push(`/groups/${group.id}`)
+  }
 
+  createGroup() {
+    this.props.createGroup(this.state.groupName);
   }
 }
 
@@ -50,7 +67,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = {
   fetchGroups,
-  fetchStudents
+  fetchStudents,
+  createGroup
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(GroupsPage)

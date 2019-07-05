@@ -11,7 +11,9 @@ export const ActionType = {
   ASSIGN_STUDENT: 'ASSIGN_STUDENT',
   ASSIGN_STUDENT_SUCCESS: 'ASSIGN_STUDENT_SUCCESS',
   REMOVE_STUDENT: 'REMOVE_STUDENT',
-  REMOVE_STUDENT_SUCCESS: 'ASSIGN_STUDENT_SUCCESS'
+  REMOVE_STUDENT_SUCCESS: 'ASSIGN_STUDENT_SUCCESS',
+  CREATE_GROUP: 'CREATE_GROUP',
+  CREATE_GROUP_SUCCESS: 'CREATE_GROUP_SUCCESS'
 };
 
 export const logIn = (login, password) => {
@@ -112,6 +114,22 @@ export const removeStudent = (groupId, studentId) => {
 export const removeStudentSuccess = () => {
   return {
     type: ActionType.REMOVE_STUDENT_SUCCESS,
+    payload: {}
+  }
+};
+
+export const createGroup = (groupName) => {
+  return {
+    type: ActionType.CREATE_GROUP,
+    payload: {
+      groupName
+    }
+  }
+};
+
+export const createGroupSuccess = () => {
+  return {
+    type: ActionType.CREATE_GROUP_SUCCESS,
     payload: {}
   }
 };

@@ -28,3 +28,11 @@
 .header {
     font-weight: bold;
 }
+
+.createGroupContainer {
+    width: 300px;
+    padding-top: 8px;
+    border-top: 1px solid gray;
+    display: flex;
+    justify-content: center;
+}
