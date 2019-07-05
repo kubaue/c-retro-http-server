@@ -6,6 +6,7 @@ import { isLoggedIn } from "./selectors/authSelectors";
 import connect from "react-redux/es/connect/connect";
 import HomePage from './components/pages/HomePage';
 import browserHistory from './history';
+import GroupPage from './components/pages/GroupPage';
 
 const history = browserHistory;
 
@@ -16,6 +17,7 @@ class AppRouter extends Component {
       <Router history={history}>
         <Route path="/login" component={LoginPage} />
         <PrivateRoute path="/home" component={HomePage} isLoggedIn={loggedIn} />
+        <PrivateRoute path="/groups/:id" component={GroupPage} isLoggedIn={loggedIn} />
         <PrivateRoute path="/groups" component={GroupsPage} isLoggedIn={loggedIn} />
       </Router>
     );
@@ -25,7 +27,7 @@ class AppRouter extends Component {
 class PrivateRoute extends Component {
   render() {
     if (this.props.isLoggedIn) {
-      return <Route path={this.props.path} component={this.props.component} />
+      return <Route exact path={this.props.path} component={this.props.component} />
     } else {
       return <Redirect to={{ pathname: "/login" }}
       />
