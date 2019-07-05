@@ -1,7 +1,11 @@
 import { combineEpics } from "redux-observable";
 import authEpic from "./authEpic";
+import studentsEpic from './studentsEpic';
+import groupsEpic from './groupsEpic';
 
 export const rootEpic = combineEpics(
-  ...authEpic
+  ...authEpic,
+  ...studentsEpic,
+  ...groupsEpic
 );
 

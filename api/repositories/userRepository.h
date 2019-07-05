@@ -54,7 +54,7 @@ void findAllStudents(char dest[]) {
     query = BCON_NEW("role", "student");
     cursor = mongoc_collection_find_with_opts(collection, query, NULL, NULL);
 
-    strcpy(dest, "{\"users\": [\n");
+    strcpy(dest, "{\"students\": [\n");
     while (mongoc_cursor_next(cursor, &doc)) {
         if (first == 1) {
             first = 0;

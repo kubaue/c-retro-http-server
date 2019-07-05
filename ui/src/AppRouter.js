@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Redirect, Route, Router } from "react-router";
 import LoginPage from "./components/pages/LoginPage";
-import { GroupsPage } from "./components/pages/GroupsPage";
+import GroupsPage from "./components/pages/GroupsPage";
 import { isLoggedIn } from "./selectors/authSelectors";
 import connect from "react-redux/es/connect/connect";
 import HomePage from './components/pages/HomePage';
