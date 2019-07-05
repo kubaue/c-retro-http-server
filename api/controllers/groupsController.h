@@ -4,7 +4,6 @@
 void unauthorizedForGroupManipulations(char *responseStatus);
 
 void createGroupController(char *requestBody, char userRole[], char responseBody[], char responseStatus[]) {
-
     if (strcmp(userRole, "admin") == 0) {
         json_error_t error;
         json_t *requestJson = json_loads(requestBody, 0, &error);
@@ -17,31 +16,30 @@ void createGroupController(char *requestBody, char userRole[], char responseBody
         char status[statusBufferLength];
         strcpy(status, responseStatusOK);
         strncpy(responseStatus, status, strlen(status));
-    }
-    else {
+    } else {
         unauthorizedForGroupManipulations(responseStatus);
     }
 }
 
-//void editGroupController(char *requestBody, char userRole[], char responseBody[], char responseStatus[]) {
-//
-//    if (strcmp(userRole, "admin") == 0) {
-//        json_error_t error;
-//        json_t *requestJson = json_loads(requestBody, 0, &error);
-//        json_t *students = json_object_get(requestJson, "students");
-//
-//        const char *group = json_string_value(groupName);
-//
-//        createGroup(group);
-//
-//        char status[statusBufferLength];
-//        strcpy(status, responseStatusOK);
-//        strncpy(responseStatus, status, strlen(status));
-//    }
-//    else {
-//        unauthorizedForGroupManipulations(responseStatus);
-//    }
-//}
+void editGroupController(char *requestBody, char userRole[], char responseBody[], char responseStatus[]) {
+    if (strcmp(userRole, "admin") == 0) {
+        json_error_t error;
+        json_t *requestJson = json_loads(requestBody, 0, &error);
+        json_t *groupIdJson = json_object_get(requestJson, "groupId");
+        json_t *studentJson = json_object_get(requestJson, "student");
+
+        const char *groupId = json_string_value(groupIdJson);
+        const char *student = json_string_value(studentJson);
+
+        assignStudentToGroup(groupId, student);
+
+        char status[statusBufferLength];
+        strcpy(status, responseStatusOK);
+        strncpy(responseStatus, status, strlen(status));
+    } else {
+        unauthorizedForGroupManipulations(responseStatus);
+    }
+}
 
 void unauthorizedForGroupManipulations(char *responseStatus) {
     char status[statusBufferLength];

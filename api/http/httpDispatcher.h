@@ -44,6 +44,9 @@ void dispatchHttpRequest(char *httpRequest, char httpResponseBody[]) {
     } else if (strcmp(requestMethod, "POST") == 0 && strcmp(requestPath, "/groups") == 0) {
         printf("Dispatched to create group controller\n");
         createGroupController(requestBody, userRole, responseBody, responseStatus);
+    } else if (strcmp(requestMethod, "PUT") == 0 && strcmp(requestPath, "/groups") == 0) {
+        printf("Dispatched to update group controller\n");
+        editGroupController(requestBody, userRole, responseBody, responseStatus);
     } else {
         printf("Unmatched request: %s %s\n", requestMethod, requestPath);
     }
@@ -91,7 +94,7 @@ void extractUserRole(char *dest, char *httpRequest) {
 
     char *strippedToAuthorizationHeader = strstr(httpRequest, "Authorization: ");
 
-    if(strippedToAuthorizationHeader == NULL) {
+    if (strippedToAuthorizationHeader == NULL) {
         strncpy(dest, "", 0);
         return;
     }
