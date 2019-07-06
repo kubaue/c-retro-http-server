@@ -1,7 +1,7 @@
 import { ActionType } from "../actions/actions";
 
 const initialState = {
-  token: 'eyJpZCI6ICIyMDAwIiwgIm5hbWUiOiAiRnJlZGVyaWNrIEJyb3duIiwgInJvbGUiOiAiZXhhbWluZXIifQ==', // TODO revert
+  token: '',
   attemptFailed: false
 };
 
