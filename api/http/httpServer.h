@@ -6,7 +6,7 @@
 #include <string.h>
 #include "httpDispatcher.h"
 
-#define PORT 8085
+#define PORT 8080
 #define ALTERNATIVE_PORT 8081
 
 int bindOnPort(int server_fd, struct sockaddr_in *address);

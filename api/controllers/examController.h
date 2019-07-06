@@ -58,3 +58,23 @@ void compleExamController(char *requestBody, char userRole[], char responseBody[
         strncpy(responseStatus, status, strlen(status));
     }
 }
+
+
+void getCompletedExamsController(char *requestBody, char userRole[], char responseBody[], char responseStatus[]) {
+    if (strcmp(userRole, "examiner") == 0 || strcmp(userRole, "student") == 0) {
+        char allExamsJson[httpBufferLength];
+
+        findAllCompletedExams(allExamsJson);
+
+        char status[statusBufferLength];
+        strcpy(status, responseStatusOK);
+        strncpy(responseStatus, status, strlen(status));
+        strncpy(responseBody, allExamsJson, strlen(allExamsJson));
+    } else {
+        char status[statusBufferLength];
+        memset(status, '\0', statusBufferLength);
+        strcpy(status, responseStatusUnauthorized);
+        memset(responseStatus, '\0', 1024);
+        strncpy(responseStatus, status, strlen(status));
+    }
+}

@@ -57,6 +57,8 @@ void dispatchHttpRequest(char *httpRequest, char httpResponseBody[]) {
         compleExamController(requestBody, userRole, responseBody, responseStatus);
     } else if (strcmp(requestMethod, "GET") == 0 && strcmp(requestPath, "/exams") == 0) {
         getExamsController(requestBody, userRole, responseBody, responseStatus);
+    } else if (strcmp(requestMethod, "GET") == 0 && strcmp(requestPath, "/completedExams") == 0) {
+        getCompletedExamsController(requestBody, userRole, responseBody, responseStatus);
     } else {
         printf("Unmatched request: %s %s\n", requestMethod, requestPath);
     }
