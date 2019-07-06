@@ -9,6 +9,7 @@ import browserHistory from './history';
 import GroupPage from './components/pages/GroupPage';
 import ExamsPage from './components/pages/ExamsPage';
 import CreateExamPage from './components/pages/CreateExamPage';
+import StudentExamsPage from './components/pages/StudentExamsPage';
 
 const history = browserHistory;
 
@@ -23,6 +24,7 @@ class AppRouter extends Component {
         <PrivateRoute path="/groups" component={GroupsPage} isLoggedIn={loggedIn} />
         <PrivateRoute path="/exams" component={ExamsPage} isLoggedIn={loggedIn} />
         <PrivateRoute path="/createExam" component={CreateExamPage} isLoggedIn={loggedIn} />
+        <PrivateRoute path="/studentExams" component={StudentExamsPage} isLoggedIn={loggedIn} />
       </Router>
     );
   }

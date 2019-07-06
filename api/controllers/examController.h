@@ -22,7 +22,7 @@ void createExamController(char *requestBody, char userRole[], char responseBody[
 }
 
 void getExamsController(char *requestBody, char userRole[], char responseBody[], char responseStatus[]) {
-    if (strcmp(userRole, "examiner") == 0) {
+    if (strcmp(userRole, "examiner") == 0 || strcmp(userRole, "student") == 0) {
         char allExamsJson[httpBufferLength];
 
         findAllExams(allExamsJson);
