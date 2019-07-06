@@ -1,7 +1,7 @@
 import React from "react";
 import PageWithRouting from '../PageWithRouting';
 import { connect } from 'react-redux';
-import { fetchExams, fetchGroups } from '../../actions/actions';
+import { fetchCompletedExams, fetchExams, fetchGroups } from '../../actions/actions';
 import styles from './StudentExams.module.css';
 import { userData } from '../../selectors/authSelectors';
 import browserHistory from '../../history';
@@ -16,10 +16,11 @@ class StudentExamsPage extends React.Component {
   componentDidMount() {
     this.props.fetchExams();
     this.props.fetchGroups();
+    this.props.fetchCompletedExams();
   }
 
   render() {
-    if (this.props.exams.length && this.props.groups.length) {
+    if (this.props.exams.length && this.props.groups.length && this.props.completedExams.length) {
       return (
         <PageWithRouting title={'Your Exams'}>
           <div className={styles.container}>
@@ -55,10 +56,30 @@ class StudentExamsPage extends React.Component {
 
   renderExam(exam) {
     return (
-      <div className={styles.examEntry} onClick={() => browserHistory.push(`/studentExams/${exam.id}`)}>
-        {`Exam for group ${this.groupName(exam)}. ${exam.questions.length} questions.`}
+      <div className={styles.examEntry} onClick={() => this.navigateToExam(exam)}>
+        {`Exam for group ${this.groupName(exam)}. ${exam.questions.length} questions. ${this.answersLabel(exam)}`}
       </div>
     )
+  }
+
+  navigateToExam(exam) {
+    const score = this.scoreForExam(exam);
+    if (!score) {
+      browserHistory.push(`/studentExams/${exam.id}`);
+    }
+  }
+
+  answersLabel(exam) {
+    const score = this.scoreForExam(exam);
+    if (score) {
+      return `${score} points`
+    } else {
+      return 'Not completed'
+    }
+  }
+
+  scoreForExam(exam) {
+    return this.props.completedExams.find(c => c.examId === exam.id).score;
   }
 }
 
@@ -66,6 +87,7 @@ const mapStateToProps = (state) => {
   const user = userData(state);
   return {
     exams: state.exams.entries,
+    completedExams: state.completedExams.entries,
     groups: state.groups.entries,
     myId: user ? user.id : ''
   };
@@ -74,6 +96,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = {
   fetchExams,
   fetchGroups,
+  fetchCompletedExams
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(StudentExamsPage)

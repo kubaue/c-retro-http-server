@@ -16,6 +16,8 @@ export const ActionType = {
   CREATE_GROUP_SUCCESS: 'CREATE_GROUP_SUCCESS',
   FETCH_EXAMS: 'FETCH_EXAMS',
   FETCH_EXAMS_SUCCESS: 'FETCH_EXAMS_SUCCESS',
+  FETCH_COMPLETED_EXAMS: 'FETCH_COMPLETED_EXAMS',
+  FETCH_COMPLETED_EXAMS_SUCCESS: 'FETCH_COMPLETED_EXAMS_SUCCESS',
   CREATE_EXAM: 'CREATE_EXAM',
   CREATE_EXAM_SUCCESS: 'CREATE_EXAM_SUCCESS',
   COMPLETE_EXAM: 'COMPLETE_EXAM',
@@ -158,6 +160,23 @@ export const fetchExamsSuccess = (exams) => {
     type: ActionType.FETCH_EXAMS_SUCCESS,
     payload: {
       exams
+    }
+  }
+};
+
+
+export const fetchCompletedExams = () => {
+  return {
+    type: ActionType.FETCH_COMPLETED_EXAMS,
+    payload: {}
+  }
+};
+
+export const fetchCompletedExamsSuccess = (completedExams) => {
+  return {
+    type: ActionType.FETCH_COMPLETED_EXAMS_SUCCESS,
+    payload: {
+      completedExams
     }
   }
 };
