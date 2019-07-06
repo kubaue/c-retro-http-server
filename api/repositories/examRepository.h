@@ -61,11 +61,11 @@ void createExam(json_t *examJson) {
         BSON_APPEND_ARRAY_BEGIN (&child2, "answers", &child3);
         for (int j = 0; j < json_array_size(answers); j++) {
             json_t *answer = json_array_get(answers, j);
-            keylen2 = bson_uint32_to_string (j, &key2, buf2, sizeof buf2);
+            keylen2 = bson_uint32_to_string(j, &key2, buf2, sizeof buf2);
             const char *answerAsString = json_string_value(answer);
-            bson_append_utf8 (&child3, key2, (int) keylen2, answerAsString, -1);
+            bson_append_utf8(&child3, key2, (int) keylen2, answerAsString, -1);
         }
-        bson_append_array_end (&child2, &child3);
+        bson_append_array_end(&child2, &child3);
 
 
         bson_append_document_end(&child, &child2);
@@ -100,7 +100,7 @@ void findAllExams(char dest[]) {
 
     strcpy(dest, "{\"exams\": [\n");
     while (mongoc_cursor_next(cursor, &doc)) {
-        if(first == 1) {
+        if (first == 1) {
             first = 0;
         } else {
             strcat(dest, ",\n");
@@ -112,6 +112,59 @@ void findAllExams(char dest[]) {
 
     bson_destroy(query);
     mongoc_cursor_destroy(cursor);
+    mongoc_collection_destroy(collection);
+    mongoc_client_destroy(client);
+    mongoc_cleanup();
+}
+
+void completeExam(json_t *examJson) {
+    mongoc_client_t *client;
+    mongoc_collection_t *collection;
+    bson_error_t error;
+    bson_oid_t oid;
+    bson_t *doc;
+    bson_t child;
+    bson_t child2;
+    bson_t child3;
+    size_t keylen;
+    size_t keylen2;
+    const char *key;
+    const char *key2;
+    char buf[32];
+    char buf2[32];
+
+    mongoc_init();
+
+    client = mongoc_client_new(connectionUrl);
+    collection = mongoc_client_get_collection(client, dbName, "completedExams");
+
+    doc = bson_new();
+    bson_oid_init(&oid, NULL);
+    BSON_APPEND_OID (doc, "_id", &oid);
+
+    int rawId = generateId();
+    char completedExamId[idLength];
+    sprintf(completedExamId, "%i", rawId);
+
+    json_t *studentIdJson = json_object_get(examJson, "studentId");
+    const char *studentId = json_string_value(studentIdJson);
+
+    json_t *examIdJson = json_object_get(examJson, "examId");
+    const char *examId = json_string_value(examIdJson);
+
+    json_t *scoreJson = json_object_get(examJson, "score");
+    const char *score = json_string_value(scoreJson);
+
+    BSON_APPEND_UTF8 (doc, "id", completedExamId);
+    BSON_APPEND_UTF8 (doc, "examId", examId);
+    BSON_APPEND_UTF8 (doc, "studentId", studentId);
+    BSON_APPEND_UTF8 (doc, "score", score);
+
+    if (!mongoc_collection_insert_one(
+            collection, doc, NULL, NULL, &error)) {
+        fprintf(stderr, "Error inserting document%s\n", error.message);
+    }
+
     mongoc_collection_destroy(collection);
     mongoc_client_destroy(client);
     mongoc_cleanup();

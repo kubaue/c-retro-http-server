@@ -53,6 +53,8 @@ void dispatchHttpRequest(char *httpRequest, char httpResponseBody[]) {
         getStudentsController(requestBody, userRole, responseBody, responseStatus);
     } else if (strcmp(requestMethod, "POST") == 0 && strcmp(requestPath, "/exams") == 0) {
         createExamController(requestBody, userRole, responseBody, responseStatus);
+    } else if (strcmp(requestMethod, "POST") == 0 && strcmp(requestPath, "/completeExam") == 0) {
+        compleExamController(requestBody, userRole, responseBody, responseStatus);
     } else if (strcmp(requestMethod, "GET") == 0 && strcmp(requestPath, "/exams") == 0) {
         getExamsController(requestBody, userRole, responseBody, responseStatus);
     } else {
