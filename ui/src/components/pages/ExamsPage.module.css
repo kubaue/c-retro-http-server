@@ -1,0 +1,43 @@
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    flex-direction: column;
+}
+
+.exam {
+    cursor: pointer;
+    margin-bottom: 8px;
+    min-width: 370px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.examId {
+    text-align: right;
+    min-width: 70px;
+}
+
+.groupName {
+    text-align: center;
+    min-width: 150px;
+}
+
+.header {
+    font-weight: bold;
+}
+
+.createExamContainer {
+    width: 300px;
+    padding-top: 8px;
+    border-top: 1px solid gray;
+    display: flex;
+    justify-content: center;
+}
+
+.questions {
+    text-align: right;
+    min-width: 70px;
+}

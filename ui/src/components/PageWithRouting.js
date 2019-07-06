@@ -21,6 +21,7 @@ class PageWithRouting extends React.Component {
             <h4>Navigation</h4>
             {this.renderNavigationEntry('Home', '/home', true)}
             {this.renderNavigationEntry('Groups', '/groups', this.props.userRole === 'admin')}
+            {this.renderNavigationEntry('Exams', '/exams', this.props.userRole === 'examiner')}
           </div>
           <div className={styles.payload}>
             {this.props.children}

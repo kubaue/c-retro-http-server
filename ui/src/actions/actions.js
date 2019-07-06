@@ -13,7 +13,11 @@ export const ActionType = {
   REMOVE_STUDENT: 'REMOVE_STUDENT',
   REMOVE_STUDENT_SUCCESS: 'ASSIGN_STUDENT_SUCCESS',
   CREATE_GROUP: 'CREATE_GROUP',
-  CREATE_GROUP_SUCCESS: 'CREATE_GROUP_SUCCESS'
+  CREATE_GROUP_SUCCESS: 'CREATE_GROUP_SUCCESS',
+  FETCH_EXAMS: 'FETCH_EXAMS',
+  FETCH_EXAMS_SUCCESS: 'FETCH_EXAMS_SUCCESS',
+  CREATE_EXAM: 'CREATE_EXAM',
+  CREATE_EXAM_SUCCESS: 'CREATE_EXAM_SUCCESS',
 };
 
 export const logIn = (login, password) => {
@@ -136,6 +140,39 @@ export const createGroup = (groupName) => {
 export const createGroupSuccess = () => {
   return {
     type: ActionType.CREATE_GROUP_SUCCESS,
+    payload: {}
+  }
+};
+
+export const fetchExams = () => {
+  return {
+    type: ActionType.FETCH_EXAMS,
+    payload: {}
+  }
+};
+
+export const fetchExamsSuccess = (exams) => {
+  return {
+    type: ActionType.FETCH_GROUPS_SUCCESS,
+    payload: {
+      exams
+    }
+  }
+};
+
+export const createExam = (groupId, questions) => {
+  return {
+    type: ActionType.CREATE_EXAM,
+    payload: {
+      groupId,
+      questions
+    }
+  }
+};
+
+export const createExamSuccess = () => {
+  return {
+    type: ActionType.CREATE_EXAM_SUCCESS,
     payload: {}
   }
 };

@@ -7,6 +7,7 @@ import connect from "react-redux/es/connect/connect";
 import HomePage from './components/pages/HomePage';
 import browserHistory from './history';
 import GroupPage from './components/pages/GroupPage';
+import ExamsPage from './components/pages/ExamsPage';
 
 const history = browserHistory;
 
@@ -19,6 +20,7 @@ class AppRouter extends Component {
         <PrivateRoute path="/home" component={HomePage} isLoggedIn={loggedIn} />
         <PrivateRoute path="/groups/:id" component={GroupPage} isLoggedIn={loggedIn} />
         <PrivateRoute path="/groups" component={GroupsPage} isLoggedIn={loggedIn} />
+        <PrivateRoute path="/exams" component={ExamsPage} isLoggedIn={loggedIn} />
       </Router>
     );
   }
