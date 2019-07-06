@@ -1,1 +1,1 @@
-const int httpBufferLength = 1024;
+const int httpBufferLength = 4096;
