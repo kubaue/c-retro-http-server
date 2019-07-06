@@ -1,7 +1,7 @@
 import { ActionType } from "../actions/actions";
 
 const initialState = {
-  token: 'eyJpZCI6ICIxMDAwIiwgIm5hbWUiOiAiQWxiZXJ0IFdyaWdodCIsICJyb2xlIjogImFkbWluIn0=', // TODO revert
+  token: 'eyJpZCI6ICIyMDAwIiwgIm5hbWUiOiAiRnJlZGVyaWNrIEJyb3duIiwgInJvbGUiOiAiZXhhbWluZXIifQ==', // TODO revert
   attemptFailed: false
 };
 

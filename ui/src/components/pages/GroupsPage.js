@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { createGroup, fetchGroups, fetchStudents } from '../../actions/actions';
 import styles from './GroupsPage.module.css';
 import browserHistory from '../../history';
+import { userData } from '../../selectors/authSelectors';
 
 class GroupsPage extends React.Component {
 
@@ -20,21 +21,24 @@ class GroupsPage extends React.Component {
   }
 
   render() {
-    return (
-      <PageWithRouting title={'Groups'}>
-        <div className={styles.container}>
-          <div className={`${styles.group} ${styles.header}`}>
-            <div className={styles.groupId}>Group ID</div>
-            <div className={styles.groupName}>Name</div>
+    if (this.props.role === 'admin') {
+      return (
+        <PageWithRouting title={'Groups'}>
+          <div className={styles.container}>
+            <div className={`${styles.group} ${styles.header}`}>
+              <div className={styles.groupId}>Group ID</div>
+              <div className={styles.groupName}>Name</div>
+            </div>
+            {this.props.groups.map(group => this.renderGroup(group))}
+            <div className={styles.createGroupContainer}>
+              <input onChange={(event) => this.setState({ groupName: event.target.value })} value={this.state.groupName} />
+              <button onClick={() => this.createGroup()}>Create group</button>
+            </div>
           </div>
-          {this.props.groups.map(group => this.renderGroup(group))}
-          <div className={styles.createGroupContainer}>
-            <input onChange={(event) => this.setState({groupName: event.target.value})} value={this.state.groupName}/>
-            <button onClick={() => this.createGroup()}>Create group</button>
-          </div>
-        </div>
-      </PageWithRouting>
-    );
+        </PageWithRouting>
+      );
+    }
+    return null;
   }
 
   renderGroup(group) {
@@ -54,7 +58,7 @@ class GroupsPage extends React.Component {
 
   createGroup() {
     this.props.createGroup(this.state.groupName);
-    this.setState({groupName: ''})
+    this.setState({ groupName: '' })
   }
 }
 
@@ -62,6 +66,7 @@ const mapStateToProps = (state) => {
   return {
     groups: state.groups.entries,
     students: state.students.entries,
+    role: userData(state).role
   };
 };
 
