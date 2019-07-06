@@ -5,6 +5,7 @@ import styles from './CreateExamPage.module.css';
 import { userData } from '../../selectors/authSelectors';
 import { createExam, fetchGroups } from '../../actions/actions';
 import _ from 'lodash';
+import browserHistory from '../../history';
 
 class CreateExamPage extends React.Component {
 
@@ -48,6 +49,7 @@ class CreateExamPage extends React.Component {
 
   createExam() {
     this.props.createExam(this.state.groupId, this.state.questions);
+    browserHistory.push('/exams')
   }
 
   addQuestion() {
