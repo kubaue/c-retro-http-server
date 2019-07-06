@@ -3,7 +3,6 @@ import PageWithRouting from '../PageWithRouting';
 import { connect } from 'react-redux';
 import { assignStudent, createGroup, fetchGroups, fetchStudents, removeStudent } from '../../actions/actions';
 import styles from './GroupPage.module.css';
-import _ from 'lodash';
 
 class GroupsPage extends React.Component {
 
@@ -27,6 +26,7 @@ class GroupsPage extends React.Component {
             <div className={`${styles.student} ${styles.header}`}>
               <div className={styles.studentId}>Student ID</div>
               <div className={styles.studentName}>Student name</div>
+              <div className={styles.actions}>Actions</div>
             </div>
             {this.studentsInGroup().map(student => this.renderStudent(student))}
             <div className={styles.assignStudentContainer}>
@@ -45,12 +45,12 @@ class GroupsPage extends React.Component {
 
   renderStudent(student) {
     return <div
-      onClick={() => this.navigateToGroup(student)}
       className={styles.student}
       key={student.id}
     >
       <div className={styles.studentId}>{student.id}</div>
       <div className={styles.studentName}>{student.name}</div>
+      <div className={styles.actions} onClick={() => this.removeStudent(student)}>remove</div>
     </div>
   }
 
@@ -73,6 +73,10 @@ class GroupsPage extends React.Component {
       this.props.assignStudent(this.selectedGroup().id, selectedStudent);
 
     }
+  }
+
+  removeStudent(student) {
+    this.props.removeStudent(this.selectedGroup().id, student.id);
   }
 }
 

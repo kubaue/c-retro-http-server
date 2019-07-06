@@ -9,7 +9,7 @@
 .student {
     cursor: pointer;
     margin-bottom: 8px;
-    min-width: 300px;
+    min-width: 350px;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -23,6 +23,10 @@
 .studentName {
     text-align: left;
     min-width: 150px;
+}
+
+.actions {
+    width: 50px;
 }
 
 .header {
