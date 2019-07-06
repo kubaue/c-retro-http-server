@@ -32,7 +32,6 @@
 .createExamContainer {
     width: 300px;
     padding-top: 8px;
-    border-top: 1px solid gray;
     display: flex;
     justify-content: center;
 }
@@ -40,4 +39,30 @@
 .questions {
     text-align: right;
     min-width: 70px;
+}
+
+.results {
+
+}
+
+.result {
+    margin-top: 16px;
+    margin-bottom: 16px;
+    display: flex;
+    flex-direction: row;
+
+}
+
+.studentName {
+    color: green;
+    margin-right: 16px;
+}
+
+.score {
+    color: green;
+}
+
+.entry {
+    margin-top: 8px;
+    border-bottom: 1px solid gray;
 }
