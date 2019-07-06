@@ -1,0 +1,32 @@
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    flex-direction: column;
+}
+
+.createExamContainer {
+    width: 300px;
+    padding-top: 8px;
+    border-top: 1px solid gray;
+    display: flex;
+    justify-content: center;
+}
+
+.questions {
+    text-align: right;
+    min-width: 70px;
+}
+
+.group {
+    margin-bottom: 8px;
+}
+
+.label {
+    margin-right: 8px;
+}
+
+.addQuestionButton {
+    margin-bottom: 8px;
+}
