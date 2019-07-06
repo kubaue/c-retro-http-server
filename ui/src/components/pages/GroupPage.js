@@ -59,12 +59,11 @@ class GroupsPage extends React.Component {
   }
 
   studentsInGroup() {
-    return _.flatMap(this.props.groups, (group => group.students)).map(studentId => this.props.students.find(student => student.id === studentId))
+    return this.selectedGroup().students.map(studentId => this.props.students.find(student => student.id === studentId))
   }
 
   studentsNotInGroup() {
-    const studentIdsInGroup = _.flatMap(this.props.groups, group => group.students);
-    return this.props.students.filter(student => !studentIdsInGroup.includes(student.id));
+    return this.props.students.filter(student => !this.selectedGroup().students.includes(student.id));
   }
 
   assignStudent() {

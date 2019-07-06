@@ -54,6 +54,7 @@ class GroupsPage extends React.Component {
 
   createGroup() {
     this.props.createGroup(this.state.groupName);
+    this.setState({groupName: ''})
   }
 }
 
