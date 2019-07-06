@@ -3,6 +3,7 @@
 #include "../controllers/usersController.h"
 #include "../controllers/groupsController.h"
 #include "../base64/base64Decode.h"
+#include "../controllers/examController.h"
 
 const int bufferLength = 32;
 
@@ -50,6 +51,8 @@ void dispatchHttpRequest(char *httpRequest, char httpResponseBody[]) {
         removeStudentFromGroupController(requestBody, userRole, responseBody, responseStatus);
     } else if (strcmp(requestMethod, "GET") == 0 && strcmp(requestPath, "/students") == 0) {
         getStudentsController(requestBody, userRole, responseBody, responseStatus);
+    } else if (strcmp(requestMethod, "POST") == 0 && strcmp(requestPath, "/exams") == 0) {
+        createExamController(requestBody, userRole, responseBody, responseStatus);
     } else {
         printf("Unmatched request: %s %s\n", requestMethod, requestPath);
     }
