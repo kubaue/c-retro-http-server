@@ -3,7 +3,7 @@ import { ajax } from 'rxjs/ajax';
 import { ofType } from 'redux-observable';
 import { API_URL } from '../config';
 import { catchError, map, mergeMap } from 'rxjs/internal/operators';
-import { ActionType, apiErrorOccurred, createExamSuccess, fetchExams, fetchExamsSuccess } from "../actions/actions";
+import { ActionType, apiErrorOccurred, completeExamSuccess, createExamSuccess, fetchExams, fetchExamsSuccess } from "../actions/actions";
 import { of } from "rxjs";
 import { getToken } from '../selectors/authSelectors';
 
@@ -27,6 +27,16 @@ const createExamEpic = (action$, state) => action$.pipe(
   )
 );
 
+const completeExam = (action$, state) => action$.pipe(
+  ofType(ActionType.COMPLETE_EXAM),
+  mergeMap((action) =>
+    ajax.post(`${API_URL}/completeExam`, JSON.stringify(action.payload), { 'Content-Type': 'application/json', 'Authorization': getToken(state.value) }).pipe(
+      map(wholeRequestData => completeExamSuccess()),
+      catchError(error => of(apiErrorOccurred(error)))
+    )
+  )
+);
+
 const fetchExamsAfterAssigningEpic = (action$, state) => action$.pipe(
   ofType(ActionType.CREATE_EXAM_SUCCESS),
   map(wholeRequestData => fetchExams()),
@@ -35,5 +45,6 @@ const fetchExamsAfterAssigningEpic = (action$, state) => action$.pipe(
 export default [
   fetchExamsEpic,
   createExamEpic,
+  completeExam,
   fetchExamsAfterAssigningEpic,
 ];

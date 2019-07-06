@@ -3,8 +3,9 @@ import PageWithRouting from '../PageWithRouting';
 import { connect } from 'react-redux';
 import styles from './CompleteExamPage.module.css';
 import { userData } from '../../selectors/authSelectors';
-import { fetchExams, fetchGroups } from '../../actions/actions';
+import { completeExam, fetchExams, fetchGroups } from '../../actions/actions';
 import _ from 'lodash'
+import browserHistory from '../../history';
 
 class CompleteExamPage extends React.Component {
 
@@ -29,12 +30,19 @@ class CompleteExamPage extends React.Component {
             {exam.questions.map(question => this.renderQuestion(question))}
           </div>
           <div className={styles.submitContainer}>
-            <button>Submit</button>
+            <button onClick={() => this.completeExam()}>Submit</button>
           </div>
         </PageWithRouting>
       );
     }
     return null;
+  }
+
+  completeExam() {
+    const questions = this.selectedExam().questions;
+    const score = questions.filter(question => `${_.indexOf(question.answers, this.state.answers[question.id])}` === question.correctAnswerIndex).length;
+    this.props.completeExam(this.props.myId, this.selectedExam().id, `${score}`);
+    browserHistory.push('/studentExams')
   }
 
   renderQuestion(question) {
@@ -103,6 +111,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = {
   fetchExams,
   fetchGroups,
+  completeExam
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(CompleteExamPage)

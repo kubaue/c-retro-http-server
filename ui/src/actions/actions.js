@@ -18,6 +18,8 @@ export const ActionType = {
   FETCH_EXAMS_SUCCESS: 'FETCH_EXAMS_SUCCESS',
   CREATE_EXAM: 'CREATE_EXAM',
   CREATE_EXAM_SUCCESS: 'CREATE_EXAM_SUCCESS',
+  COMPLETE_EXAM: 'COMPLETE_EXAM',
+  COMPLETE_EXAM_SUCCESS: 'COMPLETE_EXAM_SUCCESS',
 };
 
 export const logIn = (login, password) => {
@@ -173,6 +175,24 @@ export const createExam = (groupId, questions) => {
 export const createExamSuccess = () => {
   return {
     type: ActionType.CREATE_EXAM_SUCCESS,
+    payload: {}
+  }
+};
+
+export const completeExam = (studentId, examId, score) => {
+  return {
+    type: ActionType.COMPLETE_EXAM,
+    payload: {
+      studentId,
+      examId,
+      score
+    }
+  }
+};
+
+export const completeExamSuccess = () => {
+  return {
+    type: ActionType.COMPLETE_EXAM_SUCCESS,
     payload: {}
   }
 };
