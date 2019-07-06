@@ -47,7 +47,7 @@ class CreateExamPage extends React.Component {
   }
 
   createExam() {
-    this.props.createExam();
+    this.props.createExam(this.state.groupId, this.state.questions);
   }
 
   addQuestion() {
@@ -55,7 +55,7 @@ class CreateExamPage extends React.Component {
     this.setState(state => ({
       questions: [...state.questions, {
         text: '',
-        correctAnswerIndex: '',
+        correctAnswerIndex: '0',
         answers: [],
         localId: localId
       }]
@@ -71,15 +71,66 @@ class CreateExamPage extends React.Component {
             const newValue = event.target.value;
             return this.setState(state => ({
               questions: state.questions.map(q => {
-                if(q.localId === question.localId) {
+                if (q.localId === question.localId) {
                   return ({ ...q, text: newValue });
                 } else {
                   return q;
                 }
               })
             }));
-          }}/>
+          }} />
         </div>
+        <div className={styles.answersContainer}>
+          <h4>Answers</h4>
+        </div>
+        {question.answers.map(answer => this.renderAnswer(question, answer))}
+        <div className={styles.addAnswerContainer}>
+          <button className={styles.button} onClick={() => this.setState(state => ({
+            questions: state.questions.map(q => {
+              if (q.localId === question.localId) {
+                return { ...q, answers: [...q.answers, ""] }
+              }
+              return q;
+            })
+          }))}>Add answer
+          </button>
+        </div>
+      </div>
+    )
+  }
+
+  renderAnswer(question, answer) {
+    const answerIndex = _.indexOf(question.answers, answer);
+    const correctAnswerIndex = Number(question.correctAnswerIndex);
+    return (
+      <div className={styles.answer} key={answer.localId}>
+        <input value={answer} onChange={(event) => {
+          const newValue = event.target.value;
+          return this.setState(state => ({
+            questions: state.questions.map(q => {
+              if (q.localId === question.localId) {
+                return ({
+                  ...q, answers: q.answers.map((a, aIndex) => {
+                    if (aIndex === answerIndex) {
+                      return newValue;
+                    }
+                    return a;
+                  })
+                });
+              } else {
+                return q;
+              }
+            })
+          }));
+        }} />
+        <input type={'radio'} onChange={() => this.setState(state => ({
+          questions: state.questions.map(q => {
+            if (q.localId === question.localId) {
+              return { ...q, correctAnswerIndex: `${answerIndex}` }
+            }
+            return q;
+          })
+        }))} checked={correctAnswerIndex === answerIndex} />
       </div>
     )
   }
