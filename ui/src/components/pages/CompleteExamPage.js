@@ -4,12 +4,15 @@ import { connect } from 'react-redux';
 import styles from './CompleteExamPage.module.css';
 import { userData } from '../../selectors/authSelectors';
 import { fetchExams, fetchGroups } from '../../actions/actions';
+import _ from 'lodash'
 
 class CompleteExamPage extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {}
+    this.state = {
+      answers: {}
+    }
   }
 
   componentDidMount() {
@@ -19,7 +22,7 @@ class CompleteExamPage extends React.Component {
 
   render() {
     const exam = this.selectedExam();
-    if(exam) {
+    if (exam) {
       return (
         <PageWithRouting title={'Exam'}>
           <div className={styles.container}>
@@ -39,17 +42,25 @@ class CompleteExamPage extends React.Component {
       <div className={styles.question}>
         <div className={styles.questionText}>Question: {question.text}</div>
         <div className={styles.answers}>
-          {question.answers.map(answer => this.renderAnswer(answer))}
+          {question.answers.map(answer => this.renderAnswer(answer, question))}
         </div>
       </div>
     )
   }
 
-  renderAnswer(answer) {
+  renderAnswer(answer, question) {
     return (
       <div className={styles.answer}>
-        <input type={'radio'} className={styles.radio}/>
-        <div className={styles.answerText}>answer</div>
+        <input
+          type={'radio'}
+          className={styles.radio}
+          checked={this.state.answers[question.id] === answer}
+          onChange={(event) => {
+            this.setState(state => ({
+              answers: _.set(state.answers, question.id, answer)
+            }))
+          }} />
+        <div className={styles.answerText}>{answer}</div>
       </div>
     );
   }
