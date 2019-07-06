@@ -153,7 +153,7 @@ export const fetchExams = () => {
 
 export const fetchExamsSuccess = (exams) => {
   return {
-    type: ActionType.FETCH_GROUPS_SUCCESS,
+    type: ActionType.FETCH_EXAMS_SUCCESS,
     payload: {
       exams
     }
