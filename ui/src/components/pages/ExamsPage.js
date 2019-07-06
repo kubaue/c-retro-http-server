@@ -39,7 +39,6 @@ class ExamsPage extends React.Component {
   renderExam(exam) {
     return <div className={styles.entry}>
       <div
-        onClick={() => this.navigateToExam(exam)}
         className={styles.exam}
         key={exam.id}
       >
@@ -51,10 +50,6 @@ class ExamsPage extends React.Component {
         {_.flatMap(this.props.completedExams.filter(c => c.examId === exam.id), completedExam => ({ studentId: completedExam.studentId, score: completedExam.score })).map(result => this.renderResult(result))}
       </div>
     </div>
-  }
-
-  navigateToExam(exam) {
-    browserHistory.push(`/exams/${exam.id}`)
   }
 
   createExam() {

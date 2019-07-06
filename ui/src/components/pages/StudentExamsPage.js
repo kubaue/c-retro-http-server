@@ -20,7 +20,7 @@ class StudentExamsPage extends React.Component {
   }
 
   render() {
-    if (this.props.exams.length && this.props.groups.length && this.props.completedExams.length) {
+    if (this.props.exams.length && this.props.groups.length) {
       return (
         <PageWithRouting title={'Your Exams'}>
           <div className={styles.container}>
@@ -79,7 +79,8 @@ class StudentExamsPage extends React.Component {
   }
 
   scoreForExam(exam) {
-    return this.props.completedExams.find(c => c.examId === exam.id).score;
+    const completedExam = this.props.completedExams.find(c => c.examId === exam.id);
+    return completedExam ? completedExam.score : undefined;
   }
 }
 
