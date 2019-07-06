@@ -9,14 +9,12 @@
 .createExamContainer {
     width: 300px;
     padding-top: 8px;
-    border-top: 1px solid gray;
     display: flex;
     justify-content: center;
 }
 
 .questions {
-    text-align: right;
-    min-width: 70px;
+
 }
 
 .group {
@@ -27,6 +25,21 @@
     margin-right: 8px;
 }
 
-.addQuestionButton {
+.button {
+    margin-left: 8px;
+    margin-right: 8px;
+}
+
+.question {
+    margin-bottom: 16px;
+    border-bottom: 1px solid gray;
+    width: 300px;
+}
+
+.questionRow {
     margin-bottom: 8px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
 }
