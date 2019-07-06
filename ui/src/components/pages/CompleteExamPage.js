@@ -1,12 +1,11 @@
 import React from "react";
 import PageWithRouting from '../PageWithRouting';
 import { connect } from 'react-redux';
-import { fetchExams, fetchGroups } from '../../actions/actions';
-import styles from './StudentExams.module.css';
+import styles from './CompleteExamPage.module.css';
 import { userData } from '../../selectors/authSelectors';
-import browserHistory from '../../history';
+import { fetchExams, fetchGroups } from '../../actions/actions';
 
-class ComppleteExamPage extends React.Component {
+class CompleteExamPage extends React.Component {
 
   constructor(props) {
     super(props);
@@ -19,17 +18,40 @@ class ComppleteExamPage extends React.Component {
   }
 
   render() {
-    if (this.props.exams.length && this.props.groups.length) {
+    const exam = this.selectedExam();
+    if(exam) {
       return (
         <PageWithRouting title={'Exam'}>
           <div className={styles.container}>
-            {this.myExams().map(exam => this.renderExam(exam))}
-            {!this.myExams().length && (<h4>You don't have any exams</h4>)}
+            {exam.questions.map(question => this.renderQuestion(question))}
+          </div>
+          <div className={styles.submitContainer}>
+            <button>Submit</button>
           </div>
         </PageWithRouting>
       );
     }
     return null;
+  }
+
+  renderQuestion(question) {
+    return (
+      <div className={styles.question}>
+        <div className={styles.questionText}>Question: {question.text}</div>
+        <div className={styles.answers}>
+          {question.answers.map(answer => this.renderAnswer(answer))}
+        </div>
+      </div>
+    )
+  }
+
+  renderAnswer(answer) {
+    return (
+      <div className={styles.answer}>
+        <input type={'radio'} className={styles.radio}/>
+        <div className={styles.answerText}>answer</div>
+      </div>
+    );
   }
 
   myExams() {
@@ -53,12 +75,8 @@ class ComppleteExamPage extends React.Component {
     return group ? group.groupName : '';
   }
 
-  renderExam(exam) {
-    return (
-      <div className={styles.examEntry} onClick={() => browserHistory.push(`/studentExams/${exam.id}`)}>
-        {`Exam for group ${this.groupName(exam)}. ${exam.questions.length} questions.`}
-      </div>
-    )
+  selectedExam() {
+    return this.myExams().find(exam => exam.id === this.props.match.params.id);
   }
 }
 
@@ -76,4 +94,4 @@ const mapDispatchToProps = {
   fetchGroups,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ComppleteExamPage)
+export default connect(mapStateToProps, mapDispatchToProps)(CompleteExamPage)
